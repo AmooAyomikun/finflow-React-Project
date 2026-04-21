@@ -1,200 +1,181 @@
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-
-import {
-  PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip,
-  CartesianGrid, AreaChart, Area, LineChart, Line,
+import { 
+  AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
+  BarChart, Bar, Cell, PieChart, Pie
 } from "recharts";
+import { CATEGORY_META } from "@/lib/data";
+import { Download, TrendingUp, LayoutGrid, PieChart as PieIcon, List } from "lucide-react";
+import { useAppStore } from "@/store/useAppStore";
 
-const categoryData = [
-  { name: "Food & Dining", value: 850, color: "#1565C0" },
-  { name: "Shopping", value: 680, color: "#2E7D32" },
-  { name: "Bills & Utilities", value: 1200, color: "#E65100" },
-  { name: "Transportation", value: 420, color: "#C62828" },
-  { name: "Entertainment", value: 320, color: "#7B1FA2" },
-  { name: "Health", value: 50, color: "#00838F" },
-];
+const fadeUp = (i: number) => ({
+  initial: { opacity: 0, y: 15 },
+  animate: { opacity: 1, y: 0 },
+  transition: { delay: i * 0.05, duration: 0.4, ease: "easeOut" as const },
+});
 
-const trendData = [
-  { month: "Nov", income: 5600, expenses: 3400 },
-  { month: "Dec", income: 5800, expenses: 3200 },
-  { month: "Jan", income: 6000, expenses: 3800 },
-  { month: "Feb", income: 5500, expenses: 3100 },
-  { month: "Mar", income: 5900, expenses: 3500 },
-  { month: "Apr", income: 6200, expenses: 3847 },
-];
-
-const netWorthData = [
-  { month: "Nov", worth: 20100 },
-  { month: "Dec", worth: 21500 },
-  { month: "Jan", worth: 22200 },
-  { month: "Feb", worth: 22800 },
-  { month: "Mar", worth: 23600 },
-  { month: "Apr", worth: 24580 },
-];
-
-const merchantData = [
-  { merchant: "Whole Foods", total: 450, count: 8 },
-  { merchant: "Amazon", total: 320, count: 5 },
-  { merchant: "Uber", total: 280, count: 12 },
-  { merchant: "Netflix", total: 16, count: 1 },
-  { merchant: "Spotify", total: 10, count: 1 },
-];
-
-const tooltipStyle = { borderRadius: 8, border: "1px solid hsl(var(--border))", background: "hsl(var(--card))", fontSize: 12 };
+const fmt = (n: number) => '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits:2 });
 
 export default function Analytics() {
-  return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Analytics</h1>
-          <p className="text-muted-foreground">Understand your spending patterns</p>
-        </div>
-        <Button variant="outline" size="sm">
-          <i className="fa-solid fa-download h-4 w-4 mr-1" ></i> Export CSV
-        </Button>
-      </motion.div>
+  const { transactions: txs } = useAppStore();
+  
+  const categorySummary = Object.keys(CATEGORY_META).map(cat => {
+    const amount = txs.filter(t => t.type === 'expense' && t.category === cat).reduce((s, t) => s + t.amount, 0);
+    return { 
+      name: CATEGORY_META[cat as keyof typeof CATEGORY_META].label, 
+      value: amount, 
+      color: CATEGORY_META[cat as keyof typeof CATEGORY_META].color,
+      icon: CATEGORY_META[cat as keyof typeof CATEGORY_META].icon
+    };
+  }).filter(c => c.value > 0).sort((a,b) => b.value - a.value);
 
-      <Tabs defaultValue="overview">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="categories">Categories</TabsTrigger>
-          <TabsTrigger value="merchants">Merchants</TabsTrigger>
-          <TabsTrigger value="report">Monthly Report</TabsTrigger>
+  const trendData = [
+    { month: 'Feb', income: 4500, expenses: 3200 },
+    { month: 'Mar', income: 5200, expenses: 3800 },
+    { month: 'Apr', income: 4800, expenses: 4100 },
+    { month: 'May', income: 6100, expenses: 3900 },
+    { month: 'Jun', income: 5500, expenses: 4200 },
+    { month: 'Jul', income: 5800, expenses: 3804 },
+  ];
+
+  return (
+    <div className="page active fade-in" id="page-analytics">
+      <div className="page-header">
+        <div>
+          <h1>Analytics</h1>
+          <div className="page-header-sub">Deep dive into your spending habits and trends</div>
+        </div>
+        <button className="topbar-btn">
+          <Download className="h-4 w-4 mr-2 inline" /> Export Report
+        </button>
+      </div>
+
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList style={{ background: 'var(--card)', border: '1px solid var(--border)', padding: '4px', height: '48px', borderRadius: '12px', marginBottom: '32px' }}>
+          <TabsTrigger value="overview" style={{ borderRadius: '8px', padding: '0 24px', fontWeight: 700 }} className="data-[state=active]:bg-[#1565C0] data-[state=active]:text-white">
+            <LayoutGrid className="h-4 w-4 mr-2" /> Overview
+          </TabsTrigger>
+          <TabsTrigger value="categories" style={{ borderRadius: '8px', padding: '0 24px', fontWeight: 700 }} className="data-[state=active]:bg-[#1565C0] data-[state=active]:text-white">
+            <PieIcon className="h-4 w-4 mr-2" /> Categories
+          </TabsTrigger>
+          <TabsTrigger value="merchants" style={{ borderRadius: '8px', padding: '0 24px', fontWeight: 700 }} className="data-[state=active]:bg-[#1565C0] data-[state=active]:text-white">
+            <List className="h-4 w-4 mr-2" /> Merchants
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-4 mt-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
-              <Card className="shadow-card border-border">
-                <CardHeader className="pb-2"><CardTitle className="text-base">Income vs Expenses Trend</CardTitle></CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={250}>
-                    <BarChart data={trendData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                      <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
-                      <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
-                      <Tooltip contentStyle={tooltipStyle} />
-                      <Bar dataKey="income" fill="#2E7D32" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="expenses" fill="#C62828" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-              <Card className="shadow-card border-border">
-                <CardHeader className="pb-2"><CardTitle className="text-base">Net Worth Over Time</CardTitle></CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={250}>
-                    <AreaChart data={netWorthData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                      <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
-                      <YAxis tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
-                      <Tooltip contentStyle={tooltipStyle} />
-                      <defs>
-                        <linearGradient id="netWorthGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#1565C0" stopOpacity={0.3} />
-                          <stop offset="95%" stopColor="#1565C0" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                      <Area type="monotone" dataKey="worth" stroke="#1565C0" fill="url(#netWorthGradient)" strokeWidth={2} />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="categories" className="mt-4">
-          <Card className="shadow-card border-border">
-            <CardHeader><CardTitle className="text-base">Spending by Category — April 2026</CardTitle></CardHeader>
-            <CardContent>
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                <ResponsiveContainer width={240} height={240}>
-                  <PieChart>
-                    <Pie data={categoryData} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={3} dataKey="value">
-                      {categoryData.map((e) => <Cell key={e.name} fill={e.color} />)}
-                    </Pie>
-                    <Tooltip contentStyle={tooltipStyle} />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="flex-1 space-y-3 w-full">
-                  {categoryData.map((c) => {
-                    const total = categoryData.reduce((a, b) => a + b.value, 0);
-                    const pct = Math.round((c.value / total) * 100);
-                    return (
-                      <div key={c.name} className="flex items-center gap-3">
-                        <div className="h-3 w-3 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} />
-                        <span className="text-sm flex-1">{c.name}</span>
-                        <span className="text-sm font-medium">${c.value}</span>
-                        <span className="text-xs text-muted-foreground w-10 text-right">{pct}%</span>
-                      </div>
-                    );
-                  })}
+        <TabsContent value="overview" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+             <motion.div className="lg:col-span-2" {...fadeUp(0)}>
+                <div className="card" style={{ height: '100%', padding: '24px' }}>
+                    <p style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '24px' }}>Income vs Expenses Trend</p>
+                    <div style={{ height: '350px', width: '100%' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                           <BarChart data={trendData}>
+                              <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="3 3" />
+                              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: 'var(--text3)', fontSize: 12, fontWeight: 600 }} dy={10} />
+                              <YAxis axisLine={false} tickLine={false} tick={{ fill: 'var(--text3)', fontSize: 12, fontWeight: 600 }} tickFormatter={(v) => `$${v}`} />
+                              <Tooltip 
+                                cursor={{ fill: 'var(--bg)' }}
+                                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(15,23,41,0.1)', padding: '12px' }}
+                                itemStyle={{ fontWeight: 800 }}
+                              />
+                              <Bar dataKey="income" fill="var(--green)" radius={[6, 6, 0, 0]} barSize={24} />
+                              <Bar dataKey="expenses" fill="var(--red)" radius={[6, 6, 0, 0]} barSize={24} />
+                           </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+             </motion.div>
 
-        <TabsContent value="merchants" className="mt-4">
-          <Card className="shadow-card border-border">
-            <CardHeader><CardTitle className="text-base">Top Merchants by Spend</CardTitle></CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {merchantData.map((m, i) => (
-                  <motion.div
-                    key={m.merchant}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="flex items-center gap-4 p-3 rounded-lg hover:bg-secondary/30 transition-colors"
-                  >
-                    <span className="text-sm font-medium w-8 text-muted-foreground">#{i + 1}</span>
-                    <span className="flex-1 font-medium text-sm">{m.merchant}</span>
-                    <span className="text-xs text-muted-foreground">{m.count} txns</span>
-                    <span className="font-semibold text-sm">${m.total}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+             <motion.div {...fadeUp(1)}>
+                <div className="card" style={{ height: '100%', padding: '24px', background: 'linear-gradient(to bottom right, var(--violet), #0D47A1)', color: 'white' }}>
+                    <p style={{ fontSize: '13px', fontWeight: 700, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '24px' }}>Financial Health</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                       <div>
+                          <p style={{ fontSize: '11px', fontWeight: 700, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Net Cash Flow</p>
+                          <h3 style={{ fontSize: '36px', fontWeight: 800, margin: 0, lineHeight: 1 }}>+ {fmt(1400)}</h3>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px', fontWeight: 700, marginTop: '8px', color: '#10D67E' }}>
+                             <TrendingUp className="h-4 w-4" /> <span>+24% vs last month</span>
+                          </div>
+                       </div>
+                       
+                       <div>
+                          <p style={{ fontSize: '11px', fontWeight: 700, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Savings Rate</p>
+                          <div style={{ display: 'flex', alignItems: 'end', gap: '8px' }}>
+                             <h3 style={{ fontSize: '36px', fontWeight: 800, margin: 0, lineHeight: 1 }}>28%</h3>
+                             <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', fontWeight: 600, paddingBottom: '4px' }}>of income</span>
+                          </div>
+                       </div>
 
-        <TabsContent value="report" className="mt-4">
-          <Card className="shadow-card border-border">
-            <CardHeader><CardTitle className="text-base">Monthly Report — April 2026</CardTitle></CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                {[
-                  { label: "Total Income", value: "$6,200", color: "text-success" },
-                  { label: "Total Expenses", value: "$3,847", color: "text-destructive" },
-                  { label: "Net Savings", value: "$2,353", color: "text-primary" },
-                  { label: "Savings Rate", value: "38%", color: "text-primary" },
-                ].map((s) => (
-                  <div key={s.label} className="text-center p-4 rounded-lg bg-secondary/50">
-                    <p className="text-xs text-muted-foreground mb-1">{s.label}</p>
-                    <p className={`text-xl font-bold ${s.color}`}>{s.value}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="space-y-3 text-sm">
-                <p className="text-muted-foreground">📊 Top spending category: <strong className="text-foreground">Bills & Utilities</strong> ($1,200)</p>
-                <p className="text-muted-foreground">🏆 Biggest single expense: <strong className="text-foreground">Electric Bill</strong> ($120)</p>
-                <p className="text-muted-foreground">📈 Net worth grew by <strong className="text-success">+$980</strong> this month</p>
-                <p className="text-muted-foreground">⚠️ Shopping budget exceeded by <strong className="text-destructive">$80</strong></p>
-              </div>
-              <Button className="mt-6 finflow-gradient text-primary-foreground">
-                <i className="fa-solid fa-download h-4 w-4 mr-1" ></i> Export PDF Report
-              </Button>
-            </CardContent>
-          </Card>
+                       <div style={{ padding: '16px', background: 'rgba(255,255,255,0.1)', borderRadius: '16px' }}>
+                          <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: 0 }}>You're in the top 15% of savers in your income bracket.</p>
+                       </div>
+                    </div>
+                </div>
+             </motion.div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <motion.div {...fadeUp(2)}>
+                <div className="card" style={{ padding: '24px', height: '100%' }}>
+                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                       <p style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>Spending by Category</p>
+                       <button className="topbar-btn" style={{ height: '32px' }}>View Details</button>
+                   </div>
+                   <div style={{ height: '280px', width: '100%' }}>
+                      <ResponsiveContainer width="100%" height="100%">
+                         <PieChart>
+                            <Pie
+                               data={categorySummary}
+                               cx="50%"
+                               cy="50%"
+                               innerRadius={80}
+                               outerRadius={110}
+                               paddingAngle={5}
+                               dataKey="value"
+                               stroke="none"
+                            >
+                               {categorySummary.map((entry, index) => (
+                                 <Cell key={`cell-${index}`} fill={entry.color} />
+                               ))}
+                            </Pie>
+                            <Tooltip 
+                              contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(15,23,41,0.1)', padding: '12px' }}
+                              itemStyle={{ fontWeight: 800 }}
+                              formatter={(value: number) => fmt(value)}
+                            />
+                         </PieChart>
+                      </ResponsiveContainer>
+                   </div>
+                </div>
+             </motion.div>
+
+             <motion.div {...fadeUp(3)}>
+                <div className="card" style={{ padding: '24px', height: '100%' }}>
+                   <p style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '24px' }}>Top Categories Breakdown</p>
+                   <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                      {categorySummary.slice(0, 5).map((cat, idx) => (
+                        <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                           <div style={{ height: '48px', width: '48px', borderRadius: '12px', background: `${cat.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <i className={`${cat.icon} text-[20px]`} style={{ color: cat.color }} />
+                           </div>
+                           <div style={{ flex: 1 }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                                 <span style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text)' }}>{cat.name}</span>
+                                 <span style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text)' }}>{fmt(cat.value)}</span>
+                              </div>
+                              <div style={{ height: '6px', borderRadius: '3px', background: 'var(--bg)', overflow: 'hidden' }}>
+                                 <div 
+                                    style={{ height: '100%', borderRadius: '3px', backgroundColor: cat.color, width: `${(cat.value / categorySummary[0].value) * 100}%` }}
+                                 />
+                              </div>
+                           </div>
+                        </div>
+                      ))}
+                   </div>
+                </div>
+             </motion.div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
