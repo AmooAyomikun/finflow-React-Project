@@ -9,19 +9,14 @@ const Landing = () => {
   const [modalType, setModalType] = useState('signup');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [toast, setToast] = useState({ show: false, msg: '', icon: '✅' });
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Navigation handlers
   const showPage = (name: string) => {
     setCurrentPage(name);
-    setIsMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // Trigger fade-ups after page switch
     setTimeout(triggerFadeUps, 120);
   };
-
-  const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   const goHome = () => showPage('home');
 
@@ -86,12 +81,6 @@ const Landing = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentPage]);
 
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isMobileMenuOpen]);
-
   // Handle modal backdrop click
   const handleBackdropClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).id === 'auth-modal') closeModal();
@@ -106,54 +95,19 @@ const Landing = () => {
             <div className="nav-logo-icon"><i className="fa-solid fa-gem" style={{ color: '#fff' }}></i></div> FinFlow
           </a>
           <ul className="nav-links">
-            <li><a onClick={goHome} className={currentPage === 'home' ? 'active' : ''}>Home</a></li>
-            <li><a onClick={() => showPage('about')} className={currentPage === 'about' ? 'active' : ''}>About</a></li>
-            <li><a onClick={() => showPage('features')} className={currentPage === 'features' ? 'active' : ''}>Features</a></li>
-            <li><a onClick={() => showPage('pricing-page')} className={currentPage === 'pricing-page' ? 'active' : ''}>Pricing</a></li>
-            <li><a onClick={() => showPage('blog')} className={currentPage === 'blog' ? 'active' : ''}>Blog</a></li>
-            <li><a onClick={() => showPage('contact')} className={currentPage === 'contact' ? 'active' : ''}>Contact</a></li>
+            <li><a onClick={goHome}>Home</a></li>
+            <li><a onClick={() => showPage('about')}>About</a></li>
+            <li><a onClick={() => showPage('features')}>Features</a></li>
+            <li><a onClick={() => showPage('pricing-page')}>Pricing</a></li>
+            <li><a onClick={() => showPage('blog')}>Blog</a></li>
+            <li><a onClick={() => showPage('contact')}>Contact</a></li>
           </ul>
           <div className="nav-actions">
             <a className="nav-login" onClick={() => openModal('login')}>Log in</a>
-            <a className="btn btn-primary btn-sm" onClick={() => openModal('signup')}>Get Started <i className="fa-solid fa-chevron-right" style={{ fontSize: '10px' }}></i></a>
+            <a className="btn btn-dark btn-sm" onClick={() => openModal('signup')}>Get Started <i className="fa-solid fa-chevron-right" style={{ fontSize: '10px' }}></i></a>
           </div>
-          {/* Hamburger — mobile only */}
-          <button
-            className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}
-            onClick={toggleMobileMenu}
-            aria-label="Toggle menu"
-          >
-            <span></span><span></span><span></span>
-          </button>
         </div>
       </nav>
-
-      {/* Mobile Menu Overlay */}
-      <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={closeMobileMenu}></div>
-
-      {/* Mobile Menu Drawer */}
-      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
-        <div className="mobile-menu-header">
-          <a className="nav-logo" onClick={() => { goHome(); closeMobileMenu(); }} style={{ cursor: 'pointer' }}>
-            <div className="nav-logo-icon"><i className="fa-solid fa-gem" style={{ color: '#fff' }}></i></div> FinFlow
-          </a>
-          <button className="mobile-menu-close" onClick={closeMobileMenu} aria-label="Close menu">
-            <i className="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <ul className="mobile-nav-links">
-          <li><a onClick={goHome} className={currentPage === 'home' ? 'active' : ''}><i className="fa-solid fa-house"></i>Home</a></li>
-          <li><a onClick={() => showPage('about')} className={currentPage === 'about' ? 'active' : ''}><i className="fa-solid fa-circle-info"></i>About</a></li>
-          <li><a onClick={() => showPage('features')} className={currentPage === 'features' ? 'active' : ''}><i className="fa-solid fa-bolt"></i>Features</a></li>
-          <li><a onClick={() => showPage('pricing-page')} className={currentPage === 'pricing-page' ? 'active' : ''}><i className="fa-solid fa-tag"></i>Pricing</a></li>
-          <li><a onClick={() => showPage('blog')} className={currentPage === 'blog' ? 'active' : ''}><i className="fa-solid fa-pen-nib"></i>Blog</a></li>
-          <li><a onClick={() => showPage('contact')} className={currentPage === 'contact' ? 'active' : ''}><i className="fa-solid fa-envelope"></i>Contact</a></li>
-        </ul>
-        <div className="mobile-menu-actions">
-          <a className="btn btn-outline" style={{ width: '100%', justifyContent: 'center' }} onClick={() => { openModal('login'); closeMobileMenu(); }}>Log in</a>
-          <a className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} onClick={() => { openModal('signup'); closeMobileMenu(); }}>Get Started Free <i className="fa-solid fa-arrow-right"></i></a>
-        </div>
-      </div>
 
       {/* HOME PAGE */}
       {currentPage === 'home' && (
@@ -162,7 +116,6 @@ const Landing = () => {
           <section className="hero">
             <div className="hero-inner">
               <div>
-                <div className="badge-pill"><span className="badge-dot"></span>Your Money · Your Future</div>
                 <h1>Take Control of Your<br /><span className="italic">Financial Future</span></h1>
                 <p className="hero-desc">Take control of your money with FinFlow. Track your spending, save smartly, all in one easy-to-use app.</p>
                 <div className="hero-cta">
@@ -271,7 +224,6 @@ const Landing = () => {
           {/* Features */}
           <section className="section">
             <div className="container tc">
-              <div className="section-eyebrow"><i className="fa-solid fa-sparkles" style={{ fontSize: '10px' }}></i> Core Features</div>
               <h2 className="section-title">Powerful Features to Take Control<br />of Your <span className="italic">Finances</span></h2>
               <p className="section-desc" style={{ maxWidth: '520px', margin: '0 auto' }}>Manage your finances with FinFlow. Monitor expenses, save efficiently, all within a single application.</p>
 
@@ -432,7 +384,6 @@ const Landing = () => {
               </div>
 
               <div className="manage-content">
-                <div className="eyebrow"><i className="fa-solid fa-bolt" style={{ fontSize: '10px' }}></i> Simple Setup</div>
                 <h2>Manage Your Finances in<br /><span className="italic">3 Simple Steps</span></h2>
                 <p className="sub">It's easy and takes less than 5 minutes to set up your complete financial command center.</p>
 
@@ -468,7 +419,6 @@ const Landing = () => {
           {/* Why Trust */}
           <section className="section">
             <div className="container tc">
-              <div className="section-eyebrow"><i className="fa-solid fa-trophy" style={{ fontSize: '10px' }}></i> Why FinFlow</div>
               <h2 className="section-title">Why Thousands Trust <span className="italic">FinFlow</span></h2>
               <p className="section-desc" style={{ maxWidth: '480px', margin: '0 auto' }}>Experience smarter, stress-free financial management backed by simplicity, security, and powerful insights.</p>
 
@@ -501,8 +451,7 @@ const Landing = () => {
             <div className="container">
               <div className="testi-header">
                 <div>
-                  <div className="section-eyebrow"><i className="fa-solid fa-comment-dots" style={{ fontSize: '10px' }}></i> Testimonials</div>
-                  <h2 className="section-title" style={{ marginBottom: 0 }}>Kind words from <span className="italic">happy users</span></h2>
+                  <h2 className="section-title" style={{ marginBottom: 0 }}>Sweetword from <span className="italic">sweet people</span></h2>
                 </div>
                 <div className="testi-arrows">
                   <button className="testi-arrow"><i className="fa-solid fa-chevron-left"></i></button>
@@ -564,7 +513,6 @@ const Landing = () => {
                 <div className="integ-icon" style={{ bottom: '45%', left: '2%' }}><i className="fa-brands fa-spotify" style={{ color: '#1DB954' }}></i></div>
               </div>
               <div className="integ-content">
-                <div className="section-eyebrow"><i className="fa-solid fa-link" style={{ fontSize: '10px' }}></i> Ecosystem</div>
                 <h2 className="section-title">Integrates with all your<br /><span className="italic">favourite tools</span> to get along<br />with others</h2>
                 <p className="section-desc">FinFlow works seamlessly with the products you already use. Connect your banks, tools, and platforms in seconds.</p>
                 <div style={{ marginTop: '32px' }}>
@@ -639,7 +587,6 @@ const Landing = () => {
           <section className="section" style={{ background: 'var(--surface)', paddingTop: '80px', paddingBottom: '80px' }}>
             <div className="container">
               <div className="tc" style={{ marginBottom: '0' }}>
-                <div className="section-eyebrow"><i className="fa-solid fa-circle-question" style={{ fontSize: '10px' }}></i> FAQ</div>
                 <h2 className="section-title">Frequently Asked <span className="italic">Questions</span></h2>
                 <p className="section-desc" style={{ maxWidth: '460px', margin: '0 auto' }}>Everything you need to know about FinFlow.</p>
               </div>
@@ -700,14 +647,13 @@ const Landing = () => {
           {/* Blog (Updated Layout) */}
           <section className="section">
             <div className="container">
-              <div className="blog-preview-header">
+              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '40px' }}>
                 <div>
-                  <div className="section-eyebrow"><i className="fa-solid fa-pen-nib" style={{ fontSize: '10px' }}></i> Blog</div>
                   <h2 className="section-title" style={{ marginBottom: '0' }}>Take a look at the latest <span className="italic">articles</span></h2>
                 </div>
                 <a className="btn btn-dark btn-sm" onClick={() => showPage('blog')}>View All Blog</a>
               </div>
-              <div className="blog-preview-grid fade-up">
+              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '32px' }} className="fade-up">
                 <div className="article-card" onClick={() => showPage('blog')} style={{ height: 'auto' }}>
                   <div className="article-img" style={{ background: '#f5f5f5', height: '300px' }}><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
                   <div className="article-body" style={{ padding: '32px' }}>
@@ -742,36 +688,12 @@ const Landing = () => {
           {/* CTA Banner V2 */}
           <section className="cta-v2 fade-up">
             <div className="cta-v2-content">
-              <div className="section-eyebrow" style={{ background: 'rgba(255,255,255,.12)', color: 'rgba(255,255,255,.85)', marginBottom: '20px' }}>
-                <i className="fa-solid fa-rocket" style={{ fontSize: '10px' }}></i> Join FinFlow Today
-              </div>
-              <h2>Ready to take control of your <span className="italic">financial future</span></h2>
-              <p>Join over 25,000+ users who have simplified their finances. Start your free trial today — no credit card required.</p>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <a className="btn btn-white btn-lg" onClick={() => openModal('signup')}>Get Started Free <i className="fa-solid fa-arrow-right"></i></a>
-                <a className="btn btn-lg" style={{ background: 'rgba(255,255,255,.12)', color: '#fff', border: '1px solid rgba(255,255,255,.2)' }} onClick={() => showPage('features')}>Explore Features</a>
-              </div>
-              <div className="cta-v2-stats">
-                <div>
-                  <div className="cta-v2-stat-val">25K+</div>
-                  <div className="cta-v2-stat-lbl">Active Users</div>
-                </div>
-                <div>
-                  <div className="cta-v2-stat-val">4.9 ★</div>
-                  <div className="cta-v2-stat-lbl">User Rating</div>
-                </div>
-                <div>
-                  <div className="cta-v2-stat-val">$2.4M</div>
-                  <div className="cta-v2-stat-lbl">Saved by Users</div>
-                </div>
-              </div>
+              <h2>Ready to run your <span className="italic">account</span> better with us</h2>
+              <p>Join over 25k+ users who have simplified their finances. Start your free trial today and take the first step towards financial freedom.</p>
+              <a className="btn btn-dark btn-lg" onClick={() => openModal('signup')}>Get Started Now</a>
             </div>
             <div className="cta-v2-img">
-              <div className="cta-v2-img-overlay"></div>
-              <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=85&w=600&h=700"
-                alt="Professional woman using FinFlow"
-              />
+              <img src="/finflow-React-Project/images/cta_woman.png" alt="Professional Woman" />
             </div>
           </section>
         </div>
