@@ -9,10 +9,12 @@ const Landing = () => {
   const [modalType, setModalType] = useState('signup');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [toast, setToast] = useState({ show: false, msg: '', icon: '✅' });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Navigation handlers
   const showPage = (name: string) => {
     setCurrentPage(name);
+    setIsMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // Trigger fade-ups after page switch
     setTimeout(triggerFadeUps, 120);
@@ -95,19 +97,47 @@ const Landing = () => {
             <div className="nav-logo-icon"><i className="fa-solid fa-gem" style={{ color: '#fff' }}></i></div> FinFlow
           </a>
           <ul className="nav-links">
-            <li><a onClick={goHome}>Home</a></li>
-            <li><a onClick={() => showPage('about')}>About</a></li>
-            <li><a onClick={() => showPage('features')}>Features</a></li>
-            <li><a onClick={() => showPage('pricing-page')}>Pricing</a></li>
-            <li><a onClick={() => showPage('blog')}>Blog</a></li>
-            <li><a onClick={() => showPage('contact')}>Contact</a></li>
+            <li><a className={currentPage === 'home' ? 'active' : ''} onClick={goHome}>Home</a></li>
+            <li><a className={currentPage === 'about' ? 'active' : ''} onClick={() => showPage('about')}>About</a></li>
+            <li><a className={currentPage === 'features' ? 'active' : ''} onClick={() => showPage('features')}>Features</a></li>
+            <li><a className={currentPage === 'pricing-page' ? 'active' : ''} onClick={() => showPage('pricing-page')}>Pricing</a></li>
+            <li><a className={currentPage === 'blog' ? 'active' : ''} onClick={() => showPage('blog')}>Blog</a></li>
+            <li><a className={currentPage === 'contact' ? 'active' : ''} onClick={() => showPage('contact')}>Contact</a></li>
           </ul>
           <div className="nav-actions">
             <a className="nav-login" onClick={() => openModal('login')}>Log in</a>
             <a className="btn btn-dark btn-sm" onClick={() => openModal('signup')}>Get Started <i className="fa-solid fa-chevron-right" style={{ fontSize: '10px' }}></i></a>
           </div>
+          <button className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
+      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-menu-header">
+          <a className="nav-logo" onClick={goHome} style={{ cursor: 'pointer', margin: 0 }}>
+            <div className="nav-logo-icon"><i className="fa-solid fa-gem" style={{ color: '#fff' }}></i></div> FinFlow
+          </a>
+          <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)}><i className="fa-solid fa-xmark"></i></button>
+        </div>
+        <div className="mobile-nav-links">
+          <a className={currentPage === 'home' ? 'active' : ''} onClick={goHome}><i className="fa-solid fa-home"></i> Home</a>
+          <a className={currentPage === 'about' ? 'active' : ''} onClick={() => showPage('about')}><i className="fa-solid fa-circle-info"></i> About</a>
+          <a className={currentPage === 'features' ? 'active' : ''} onClick={() => showPage('features')}><i className="fa-solid fa-star"></i> Features</a>
+          <a className={currentPage === 'pricing-page' ? 'active' : ''} onClick={() => showPage('pricing-page')}><i className="fa-solid fa-tag"></i> Pricing</a>
+          <a className={currentPage === 'blog' ? 'active' : ''} onClick={() => showPage('blog')}><i className="fa-solid fa-newspaper"></i> Blog</a>
+          <a className={currentPage === 'contact' ? 'active' : ''} onClick={() => showPage('contact')}><i className="fa-solid fa-envelope"></i> Contact</a>
+        </div>
+        <div className="mobile-menu-actions">
+          <a className="btn btn-outline" style={{ justifyContent: 'center' }} onClick={() => { setIsMobileMenuOpen(false); openModal('login'); }}>Log in</a>
+          <a className="btn btn-primary" style={{ justifyContent: 'center' }} onClick={() => { setIsMobileMenuOpen(false); openModal('signup'); }}>Get Started</a>
+        </div>
+      </div>
 
       {/* HOME PAGE */}
       {currentPage === 'home' && (
@@ -693,7 +723,7 @@ const Landing = () => {
               <a className="btn btn-dark btn-lg" onClick={() => openModal('signup')}>Get Started Now</a>
             </div>
             <div className="cta-v2-img">
-              <img src="/finflow-React-Project/images/cta_woman.png" alt="Professional Woman" />
+              <img src="/cta_woman.png" alt="Professional Woman" />
             </div>
           </section>
         </div>
@@ -704,7 +734,6 @@ const Landing = () => {
         <div className="page active" id="page-features">
           <section className="inner-hero">
             <div className="container tc">
-              <div className="section-eyebrow"><i className="fa-solid fa-bolt" style={{ fontSize: '10px' }}></i> Everything You Need</div>
               <h1>Powerful Features to Take Control<br /><span style={{ color: 'var(--violet)' }}>of Your Finances</span></h1>
               <p>Manage expenses, save efficiently, and build wealth — all in one powerful app.</p>
               <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '28px' }}>
@@ -759,7 +788,6 @@ const Landing = () => {
         <div className="page active" id="page-pricing-page">
           <section className="inner-hero">
             <div className="container tc">
-              <div className="section-eyebrow"><i className="fa-solid fa-gem" style={{ fontSize: '10px' }}></i> Simple Pricing</div>
               <h1>Transparent pricing for <span style={{ color: 'var(--violet)' }}>everyone</span></h1>
               <p>Start free forever. Upgrade when you need more power. No hidden fees.</p>
             </div>
@@ -824,7 +852,6 @@ const Landing = () => {
         <div className="page active" id="page-about">
           <section className="inner-hero">
             <div className="container tc">
-              <div className="section-eyebrow"><i className="fa-solid fa-hand-wave" style={{ fontSize: '10px' }}></i> Our Story</div>
               <h1>Built by people who <span style={{ color: 'var(--violet)' }}>wanted</span><br />better money tools</h1>
               <p>FinFlow started as a weekend project and grew into a mission: give everyone clarity over where their money goes.</p>
             </div>
@@ -868,7 +895,6 @@ const Landing = () => {
         <div className="page active" id="page-blog">
           <section className="inner-hero">
             <div className="container tc">
-              <div className="section-eyebrow"><i className="fa-solid fa-pen-nib" style={{ fontSize: '10px' }}></i> FinFlow Blog</div>
               <h1>Financial tips to help<br /><span style={{ color: 'var(--violet)' }}>you grow</span></h1>
               <p>Expert guides, real stories, and actionable advice to master your money.</p>
             </div>
@@ -909,7 +935,6 @@ const Landing = () => {
         <div className="page active" id="page-contact">
           <section className="inner-hero">
             <div className="container tc">
-              <div className="section-eyebrow"><i className="fa-solid fa-envelope" style={{ fontSize: '10px' }}></i> Get in Touch</div>
               <h1>We'd love to <span style={{ color: 'var(--violet)' }}>hear from you</span></h1>
               <p>Got a question, feature request, or want to say hello? We respond within 24 hours.</p>
             </div>
