@@ -10,6 +10,7 @@ const Landing = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [toast, setToast] = useState({ show: false, msg: '', icon: '✅' });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDemoTab, setActiveDemoTab] = useState('overview');
 
   // Navigation handlers
   const showPage = (name: string) => {
@@ -18,6 +19,117 @@ const Landing = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // Trigger fade-ups after page switch
     setTimeout(triggerFadeUps, 120);
+  };
+
+  const renderDemoContent = () => {
+    if (activeDemoTab === 'overview') {
+      return (
+        <>
+          <div className="demo-stat-row">
+            <div className="demo-stat">
+              <div className="demo-stat-l">TOTAL BALANCE</div>
+              <div className="demo-stat-v">$14,280.40</div>
+            </div>
+            <div className="demo-stat">
+              <div className="demo-stat-l">MONTHLY SPEND</div>
+              <div className="demo-stat-v">$2,840.00</div>
+            </div>
+            <div className="demo-stat">
+              <div className="demo-stat-l">SAVINGS RATE</div>
+              <div className="demo-stat-v">32%</div>
+            </div>
+          </div>
+          <div className="demo-chart-row">
+            <div className="demo-chart-box">
+              <div className="demo-chart-title">CASHFLOW HISTORY</div>
+              <div className="demo-bars">
+                <div className="demo-bar" style={{ height: '30%', background: 'rgba(108, 92, 231, .3)' }}></div>
+                <div className="demo-bar" style={{ height: '45%', background: 'rgba(108, 92, 231, .3)' }}></div>
+                <div className="demo-bar" style={{ height: '60%', background: 'rgba(108, 92, 231, .6)' }}></div>
+                <div className="demo-bar" style={{ height: '55%', background: 'rgba(108, 92, 231, .3)' }}></div>
+                <div className="demo-bar" style={{ height: '80%', background: 'var(--violet)' }}></div>
+                <div className="demo-bar" style={{ height: '70%', background: 'rgba(108, 92, 231, .3)' }}></div>
+              </div>
+            </div>
+            <div className="demo-chart-box">
+              <div className="demo-chart-title">RECENT ACTIVITY</div>
+              <div className="demo-tx-row">
+                <div className="demo-tx-icon" style={{ background: 'rgba(108, 92, 231, .1)', color: 'var(--violet)' }}><i className="fa-solid fa-shopping-bag"></i></div>
+                <div style={{ flex: 1 }}><div style={{ fontSize: '10px', fontWeight: 700, color: '#fff' }}>Apple Store</div><div style={{ fontSize: '8px', color: 'rgba(255,255,255,.3)' }}>Electronics</div></div>
+                <div style={{ fontSize: '10px', fontWeight: 700, color: '#fff' }}>-$199</div>
+              </div>
+              <div className="demo-tx-row">
+                <div className="demo-tx-icon" style={{ background: 'rgba(16, 214, 126, .1)', color: '#10D67E' }}><i className="fa-solid fa-arrow-trend-up"></i></div>
+                <div style={{ flex: 1 }}><div style={{ fontSize: '10px', fontWeight: 700, color: '#fff' }}>Salary Deposit</div><div style={{ fontSize: '8px', color: 'rgba(255,255,255,.3)' }}>Income</div></div>
+                <div style={{ fontSize: '10px', fontWeight: 700, color: '#10D67E' }}>+$4,500</div>
+              </div>
+            </div>
+          </div>
+        </>
+      );
+    }
+    if (activeDemoTab === 'budgets') {
+      return (
+        <div className="demo-chart-box" style={{ height: '100%' }}>
+          <div className="demo-chart-title">BUDGET ALLOCATION</div>
+          {[
+            { name: 'Essentials', val: 65, color: 'var(--violet)' },
+            { name: 'Lifestyle', val: 40, color: '#10D67E' },
+            { name: 'Rent & Bills', val: 90, color: '#F59E0B' }
+          ].map(b => (
+            <div key={b.name} style={{ marginBottom: '14px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <span style={{ fontSize: '10px', color: '#fff', fontWeight: 600 }}>{b.name}</span>
+                <span style={{ fontSize: '10px', color: 'rgba(255,255,255,.4)' }}>{b.val}%</span>
+              </div>
+              <div style={{ height: '6px', background: 'rgba(255,255,255,.05)', borderRadius: '3px', overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${b.val}%`, background: b.color }}></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    if (activeDemoTab === 'goals') {
+      return (
+        <div className="demo-chart-box" style={{ height: '100%' }}>
+          <div className="demo-chart-title">ACTIVE GOALS</div>
+          <div className="gm-card" style={{ background: 'rgba(255,255,255,.03)', borderColor: 'rgba(255,255,255,.1)' }}>
+            <div className="gm-top">
+              <div className="demo-tx-icon" style={{ background: 'rgba(108, 92, 231, .2)', color: '#A78BFA' }}><i className="fa-solid fa-plane"></i></div>
+              <div><div className="gm-name" style={{ color: '#fff' }}>Vacation Fund</div><div className="gm-dead">Deadline: Dec 2024</div></div>
+            </div>
+            <div className="gm-amounts"><span className="gm-saved" style={{ color: '#fff' }}>$2,300</span><span className="gm-pct" style={{ color: '#A78BFA' }}>76%</span></div>
+            <div className="gm-bar" style={{ background: 'rgba(255,255,255,.05)' }}><div className="gm-fill" style={{ width: '76%', background: 'var(--violet)' }}></div></div>
+          </div>
+          <div className="gm-card" style={{ background: 'rgba(255,255,255,.03)', borderColor: 'rgba(255,255,255,.1)' }}>
+            <div className="gm-top">
+              <div className="demo-tx-icon" style={{ background: 'rgba(16, 214, 126, .2)', color: '#10D67E' }}><i className="fa-solid fa-house"></i></div>
+              <div><div className="gm-name" style={{ color: '#fff' }}>New Home</div><div className="gm-dead">Deadline: July 2026</div></div>
+            </div>
+            <div className="gm-amounts"><span className="gm-saved" style={{ color: '#fff' }}>$12,400</span><span className="gm-pct" style={{ color: '#10D67E' }}>42%</span></div>
+            <div className="gm-bar" style={{ background: 'rgba(255,255,255,.05)' }}><div className="gm-fill" style={{ width: '42%', background: '#10D67E' }}></div></div>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div className="demo-chart-box" style={{ height: '100%' }}>
+        <div className="demo-chart-title">SPENDING ANALYTICS</div>
+        <div style={{ height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: '100px', height: '100px', borderRadius: '50%', border: '12px solid var(--violet)', borderRightColor: '#10D67E', borderBottomColor: '#F59E0B', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: '#fff' }}>$3,450</div>
+              <div style={{ fontSize: '8px', color: 'rgba(255,255,255,.3)' }}>Total</div>
+            </div>
+          </div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '10px' }}>
+          <div style={{ fontSize: '9px', color: 'rgba(255,255,255,.4)', display: 'flex', alignItems: 'center', gap: '5px' }}><div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--violet)' }}></div> Essentials (45%)</div>
+          <div style={{ fontSize: '9px', color: 'rgba(255,255,255,.4)', display: 'flex', alignItems: 'center', gap: '5px' }}><div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10D67E' }}></div> Lifestyle (30%)</div>
+        </div>
+      </div>
+    );
   };
 
   const goHome = () => showPage('home');
@@ -236,6 +348,24 @@ const Landing = () => {
             </div>
           </section>
 
+          {/* STATS TICKER */}
+          <div className="ticker">
+            <div className="ticker-inner">
+              <div className="ticker-item"><i className="fa-solid fa-chart-line"></i> 25K+ Active Users</div>
+              <div className="ticker-item"><i className="fa-solid fa-gem"></i> $2.4M Saved</div>
+              <div className="ticker-item"><i className="fa-solid fa-earth-africa"></i> 140+ Countries</div>
+              <div className="ticker-item"><i className="fa-solid fa-shield-halved"></i> Bank-level Security</div>
+              <div className="ticker-item"><i className="fa-solid fa-star"></i> 4.9/5 Rating</div>
+              <div className="ticker-item"><i className="fa-solid fa-clock"></i> 24/7 Support</div>
+              <div className="ticker-item"><i className="fa-solid fa-chart-line"></i> 25K+ Active Users</div>
+              <div className="ticker-item"><i className="fa-solid fa-gem"></i> $2.4M Saved</div>
+              <div className="ticker-item"><i className="fa-solid fa-earth-africa"></i> 140+ Countries</div>
+              <div className="ticker-item"><i className="fa-solid fa-shield-halved"></i> Bank-level Security</div>
+              <div className="ticker-item"><i className="fa-solid fa-star"></i> 4.9/5 Rating</div>
+              <div className="ticker-item"><i className="fa-solid fa-clock"></i> 24/7 Support</div>
+            </div>
+          </div>
+
           {/* Proof Bar */}
           <div className="proof-bar">
             <div className="proof-inner">
@@ -360,6 +490,45 @@ const Landing = () => {
             </div>
           </section>
 
+          {/* INTERACTIVE DASHBOARD DEMO */}
+          <section className="dash-demo">
+            <div className="demo-container">
+              <div className="tc" style={{ marginBottom: '40px' }}>
+                <div className="section-eyebrow" style={{ background: 'rgba(255,255,255,.08)', color: '#A78BFA' }}><i className="fa-solid fa-desktop" style={{ marginRight: '6px' }}></i> Live Preview</div>
+                <h2 className="section-title" style={{ color: '#fff' }}>See the dashboard <span className="italic">in action</span></h2>
+                <p className="section-desc" style={{ color: '#4A6A8A', maxWidth: '480px', margin: '0 auto' }}>Every page of the FinFlow dashboard is designed for clarity and speed — here's a preview.</p>
+              </div>
+              <div className="demo-window fade-up">
+                <div className="demo-topbar">
+                  <div className="demo-dot" style={{ background: '#FF5F57' }}></div>
+                  <div className="demo-dot" style={{ background: '#FFBD2E' }}></div>
+                  <div className="demo-dot" style={{ background: '#28C840' }}></div>
+                  <div className="demo-tab-row" style={{ margin: '0 0 0 20px' }}>
+                    <div className={`demo-tab ${activeDemoTab === 'overview' ? 'active-tab' : ''}`} onClick={() => setActiveDemoTab('overview')}>Overview</div>
+                    <div className={`demo-tab ${activeDemoTab === 'budgets' ? 'active-tab' : ''}`} onClick={() => setActiveDemoTab('budgets')}>Budgets</div>
+                    <div className={`demo-tab ${activeDemoTab === 'goals' ? 'active-tab' : ''}`} onClick={() => setActiveDemoTab('goals')}>Goals</div>
+                    <div className={`demo-tab ${activeDemoTab === 'analytics' ? 'active-tab' : ''}`} onClick={() => setActiveDemoTab('analytics')}>Analytics</div>
+                  </div>
+                  <div className="demo-title">finflow.app/dashboard</div>
+                </div>
+                <div className="demo-body">
+                  <div className="demo-sidebar">
+                    <div className={`demo-nav-item ${activeDemoTab === 'overview' ? 'active-nav' : ''}`}><i className="fa-solid fa-house"></i> Overview</div>
+                    <div className={`demo-nav-item ${activeDemoTab === 'budgets' ? 'active-nav' : ''}`}><i className="fa-solid fa-wallet"></i> Budgets</div>
+                    <div className={`demo-nav-item ${activeDemoTab === 'goals' ? 'active-nav' : ''}`}><i className="fa-solid fa-bullseye"></i> Goals</div>
+                    <div className={`demo-nav-item ${activeDemoTab === 'analytics' ? 'active-nav' : ''}`}><i className="fa-solid fa-chart-line"></i> Analytics</div>
+                    <div style={{ height: '1px', background: 'rgba(255,255,255,.05)', margin: '12px 0' }}></div>
+                    <div className="demo-nav-item"><i className="fa-solid fa-credit-card"></i> Cards</div>
+                    <div className="demo-nav-item"><i className="fa-solid fa-gear"></i> Settings</div>
+                  </div>
+                  <div className="demo-content">
+                    {renderDemoContent()}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Manage section */}
           <section className="manage-section">
             <div className="manage-inner">
@@ -476,6 +645,70 @@ const Landing = () => {
             </div>
           </section>
 
+          {/* GOAL TRACKER MOCKUP */}
+          <section className="section" style={{ background: 'var(--surface)' }}>
+            <div className="container">
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+                <div className="fade-up">
+                  <div className="section-eyebrow"><i className="fa-solid fa-bullseye" style={{ marginRight: '6px' }}></i> Goal Tracking</div>
+                  <h2 className="section-title">Reach your goals <span className="italic">faster</span></h2>
+                  <p className="section-desc">Set specific financial targets and watch your progress in real-time. Whether it's a new home, a dream vacation, or an emergency fund, FinFlow keeps you motivated.</p>
+                  <ul style={{ listStyle: 'none', marginTop: '24px' }}>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', fontSize: '15px', color: 'var(--mid)', fontWeight: 500 }}><i className="fa-solid fa-circle-check" style={{ color: 'var(--green)' }}></i> Custom milestones</li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', fontSize: '15px', color: 'var(--mid)', fontWeight: 500 }}><i className="fa-solid fa-circle-check" style={{ color: 'var(--green)' }}></i> Automatic progress calculation</li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '15px', color: 'var(--mid)', fontWeight: 500 }}><i className="fa-solid fa-circle-check" style={{ color: 'var(--green)' }}></i> Deadline alerts</li>
+                  </ul>
+                </div>
+                <div className="goal-mockup fade-up">
+                  <div className="gm-header">
+                    <div className="gm-title">Financial Goals</div>
+                    <div className="gm-badge">3 Active</div>
+                  </div>
+                  <div className="gm-card">
+                    <div className="gm-top">
+                      <div className="demo-tx-icon" style={{ background: 'rgba(108, 92, 231, .1)', color: 'var(--violet)' }}><i className="fa-solid fa-plane"></i></div>
+                      <div><div className="gm-name">Vacation Fund</div><div className="gm-dead">Deadline: Dec 2024</div></div>
+                    </div>
+                    <div className="gm-amounts"><span className="gm-saved">$2,300</span><span className="gm-pct">76%</span></div>
+                    <div className="gm-bar"><div className="gm-fill" style={{ width: '76%', background: 'var(--violet)' }}></div></div>
+                  </div>
+                  <div className="gm-card">
+                    <div className="gm-top">
+                      <div className="demo-tx-icon" style={{ background: 'rgba(16, 214, 126, .1)', color: '#10D67E' }}><i className="fa-solid fa-house"></i></div>
+                      <div><div className="gm-name">New Home</div><div className="gm-dead">Deadline: July 2026</div></div>
+                    </div>
+                    <div className="gm-amounts"><span className="gm-saved">$12,400</span><span className="gm-pct" style={{ color: '#10D67E' }}>42%</span></div>
+                    <div className="gm-bar"><div className="gm-fill" style={{ width: '42%', background: '#10D67E' }}></div></div>
+                  </div>
+                  <div className="gm-card" style={{ marginBottom: 0 }}>
+                    <div className="gm-top">
+                      <div className="demo-tx-icon" style={{ background: 'rgba(245, 158, 11, .1)', color: '#F59E0B' }}><i className="fa-solid fa-car"></i></div>
+                      <div><div className="gm-name">New Car</div><div className="gm-dead">Deadline: Mar 2025</div></div>
+                    </div>
+                    <div className="gm-amounts"><span className="gm-saved">$1,450</span><span className="gm-pct" style={{ color: '#F59E0B' }}>29%</span></div>
+                    <div className="gm-bar"><div className="gm-fill" style={{ width: '29%', background: '#F59E0B' }}></div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="integrations-list fade-up">
+                {[
+                  { name: 'Slack', cat: 'Notifications', icon: <i className="fa-brands fa-slack" style={{ color: '#4A154B' }}></i> },
+                  { name: 'Google Drive', cat: 'Storage', icon: <i className="fa-brands fa-google-drive" style={{ color: '#34A853' }}></i> },
+                  { name: 'Stripe', cat: 'Payments', icon: <i className="fa-brands fa-stripe" style={{ color: '#635BFF' }}></i> },
+                  { name: 'Notion', cat: 'Workspace', icon: <i className="fa-brands fa-notion" style={{ color: '#000' }}></i> },
+                  { name: 'Spotify', cat: 'Entertainment', icon: <i className="fa-brands fa-spotify" style={{ color: '#1DB954' }}></i> },
+                  { name: 'Amazon', cat: 'Shopping', icon: <i className="fa-brands fa-amazon" style={{ color: '#FF9900' }}></i> },
+                ].map(int => (
+                  <div className="int-card" key={int.name}>
+                    <div className="int-icon" style={{ background: 'var(--surface)' }}>{int.icon}</div>
+                    <div><div className="int-name">{int.name}</div><div className="int-cat">{int.cat}</div></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* Testimonials */}
           <section className="section" style={{ background: 'var(--testi-bg)', paddingTop: '100px', paddingBottom: '100px' }}>
             <div className="container">
@@ -526,28 +759,31 @@ const Landing = () => {
             </div>
           </section>
 
-          {/* Integrations */}
-          <section className="integrations-section">
-            <div className="integ-inner">
-              <div className="radar-wrap fade-up">
-                <div className="radar-circle radar-c1"></div>
-                <div className="radar-circle radar-c2"></div>
-                <div className="radar-circle radar-c3"></div>
-                <div className="radar-center"><i className="fa-solid fa-gem"></i></div>
-                {/* Orbital icons */}
-                <div className="integ-icon" style={{ top: '15%', left: '15%' }}><i className="fa-brands fa-slack" style={{ color: '#4A154B' }}></i></div>
-                <div className="integ-icon" style={{ top: '10%', right: '20%' }}><i className="fa-brands fa-google-drive" style={{ color: '#34A853' }}></i></div>
-                <div className="integ-icon" style={{ bottom: '20%', left: '10%' }}><i className="fa-brands fa-stripe" style={{ color: '#635BFF' }}></i></div>
-                <div className="integ-icon" style={{ bottom: '15%', right: '15%' }}><i className="fa-brands fa-figma" style={{ color: '#F24E1E' }}></i></div>
-                <div className="integ-icon" style={{ top: '45%', right: '5%' }}><i className="fa-brands fa-notion" style={{ color: '#000' }}></i></div>
-                <div className="integ-icon" style={{ bottom: '45%', left: '2%' }}><i className="fa-brands fa-spotify" style={{ color: '#1DB954' }}></i></div>
-              </div>
-              <div className="integ-content">
-                <h2 className="section-title">Integrates with all your<br /><span className="italic">favourite tools</span> to get along<br />with others</h2>
-                <p className="section-desc">FinFlow works seamlessly with the products you already use. Connect your banks, tools, and platforms in seconds.</p>
-                <div style={{ marginTop: '32px' }}>
-                  <a className="btn btn-dark" onClick={() => openModal('signup')}>Explore Integrations</a>
-                </div>
+          {/* Comparison Table */}
+          <section className="section">
+            <div className="container tc">
+              <h2 className="section-title">How we compare to <span className="italic">competitors</span></h2>
+              <p className="section-desc" style={{ maxWidth: '480px', margin: '0 auto' }}>FinFlow offers a more comprehensive and intuitive financial experience than traditional tools.</p>
+              
+              <div className="fade-up" style={{ overflowX: 'auto' }}>
+                <table className="comp-table">
+                  <thead>
+                    <tr>
+                      <th>Feature</th>
+                      <th className="comp-head-free">Traditional Apps</th>
+                      <th className="comp-head-pro">FinFlow Pro</th>
+                      <th className="comp-head-biz">Spreadsheets</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Real-time Sync</td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td></tr>
+                    <tr><td>Smart Categorization</td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td></tr>
+                    <tr><td>Multi-user Access</td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td></tr>
+                    <tr><td>Budget Alerts</td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td></tr>
+                    <tr><td>Custom Reports</td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td></tr>
+                    <tr><td>Bank-level Security</td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td></tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </section>
@@ -647,19 +883,23 @@ const Landing = () => {
                   })}
                 </div>
                 <div className="faq-col">
-                  {[5, 6, 7, 8, 9].map(idx => {
+                  <div className="astat" style={{ marginBottom: '20px' }}>
+                    <div className="astat-val">98%</div>
+                    <div className="astat-lbl">Customer satisfaction rate</div>
+                  </div>
+                  <div className="astat" style={{ marginBottom: '20px' }}>
+                    <div className="astat-val">24/7</div>
+                    <div className="astat-lbl">Global priority support</div>
+                  </div>
+                  {[5, 6, 7].map(idx => {
                     const qs = [
-                      "Do you provide content writing services?",
+                      "Is my financial data secure?",
                       "What is your design process?",
-                      "What industries do you work with?",
-                      "How can I contact you?",
                       "Who is FinFlow built for?"
                     ];
                     const as = [
-                      "Our blog covers personal finance tips, budgeting strategies, and money management guides written by our team and guest contributors. All content is free to read.",
+                      "FinFlow uses AES-256 bank-level encryption. We never sell your data. Your privacy and security are our top priorities, with regular third-party security audits.",
                       "FinFlow is designed mobile-first with accessibility as a priority. We follow WCAG 2.1 AA standards and test on real devices across emerging market connectivity conditions.",
-                      "We work with a diverse range of industries including tech, retail, healthcare, and education. Our users span across Nigeria, Ghana, Kenya, South Africa, the UK, and beyond — we're global by design.",
-                      "You can reach us at hello@finflow.app, through live chat (Mon–Fri 9am–6pm WAT), or via the contact form on our website. Pro and Business users get priority email support with responses within 2 hours.",
                       "FinFlow is built for individuals, households, freelancers, and small business owners. We serve users in emerging markets and globally. Our flexible currency and account system works for anyone, anywhere."
                     ];
                     return (
@@ -687,7 +927,7 @@ const Landing = () => {
                 <div className="article-card" onClick={() => showPage('blog')} style={{ height: 'auto' }}>
                   <div className="article-img" style={{ background: '#f5f5f5', height: '300px' }}><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
                   <div className="article-body" style={{ padding: '32px' }}>
-                    <div className="article-cat">Finance Tips</div>
+                    <div className="btag">Finance Tips</div>
                     <h3 style={{ fontSize: '24px', fontWeight: '800', marginBottom: '14px', lineHeight: '1.2' }}>Working on building your savings: 5 steps that actually work</h3>
                     <p style={{ color: 'var(--muted-c)', fontSize: '14px', marginBottom: '20px' }}>Learn how to set up a robust savings system that grows with your income and protects your future.</p>
                     <div className="article-meta">Favour Ndi · 5 min read</div>
@@ -697,16 +937,16 @@ const Landing = () => {
                   <div className="article-card" onClick={() => showPage('blog')} style={{ display: 'flex', gap: '20px', border: 'none', background: 'transparent' }}>
                     <div style={{ width: '140px', height: '110px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=400" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
                     <div style={{ padding: '10px 0' }}>
-                      <div className="article-cat">Budgeting</div>
-                      <div className="article-title" style={{ fontSize: '16px' }}>Get the Most Out of FinFlow using the Money Flow strategy</div>
+                      <div className="btag">Budgeting</div>
+                      <div className="article-title" style={{ fontSize: '16px', fontWeight: 700 }}>Get the Most Out of FinFlow using the Money Flow strategy</div>
                       <div className="article-meta">Carlos Mrueeze · 4 min read</div>
                     </div>
                   </div>
                   <div className="article-card" onClick={() => showPage('blog')} style={{ display: 'flex', gap: '20px', border: 'none', background: 'transparent' }}>
                     <div style={{ width: '140px', height: '110px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}><img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&q=80&w=400" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
                     <div style={{ padding: '10px 0' }}>
-                      <div className="article-cat">Investing</div>
-                      <div className="article-title" style={{ fontSize: '16px' }}>Financial Fitness: How to Pay Down Debt and Build Wealth</div>
+                      <div className="btag">Investing</div>
+                      <div className="article-title" style={{ fontSize: '16px', fontWeight: 700 }}>Financial Fitness: How to Pay Down Debt and Build Wealth</div>
                       <div className="article-meta">Shayan Kuroda · 7 min read</div>
                     </div>
                   </div>
@@ -734,49 +974,80 @@ const Landing = () => {
         <div className="page active" id="page-features">
           <section className="inner-hero">
             <div className="container tc">
-              <h1>Powerful Features to Take Control<br /><span style={{ color: 'var(--violet)' }}>of Your Finances</span></h1>
-              <p>Manage expenses, save efficiently, and build wealth — all in one powerful app.</p>
+              <div className="eyebrow"><i className="fa-solid fa-bolt"></i> Full Feature List</div>
+              <h1>Everything You Need to Manage<br /><span style={{ color: 'var(--violet)' }}>Your Money Brilliantly</span></h1>
+              <p>Manage expenses, save efficiently, and build wealth — all in one beautiful application.</p>
               <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '28px' }}>
-                <a className="btn btn-dark btn-lg" onClick={() => openModal('signup')}>Start Free Today <i className="fa-solid fa-arrow-right"></i></a>
+                <a className="btn btn-violet btn-lg" onClick={() => openModal('signup')}>Start Free Today <i className="fa-solid fa-arrow-right"></i></a>
                 <a className="btn btn-outline btn-lg" onClick={() => showPage('pricing-page')}>View Pricing</a>
               </div>
             </div>
           </section>
+
           <section className="section">
             <div className="container">
-              <div className="features-page-grid">
-                <div className="fp-card fade-up">
-                  <div className="fp-icon" style={{ background: '#E3F0FF' }}><i className="fa-solid fa-chart-column" style={{ color: 'var(--blue)' }}></i></div>
-                  <div className="fp-content"><h3>Expense Tracking</h3><p>Track daily, weekly, and monthly expenses. Smart auto-categorization saves time and gives instant spending clarity.</p></div>
+              {/* Split 1 */}
+              <div className="split-sec mb-48" style={{ gap: '72px', marginBottom: '80px' }}>
+                <div className="fade-up">
+                  <div className="eyebrow eyebrow-blue"><i className="fa-solid fa-chart-pie"></i> Tracking</div>
+                  <h2 style={{ fontSize: '36px', fontWeight: '800', letterSpacing: '-1.5px', marginBottom: '14px' }}>Complete expense tracking <span style={{ color: 'var(--blue)' }}>in seconds</span></h2>
+                  <p style={{ fontSize: '15px', color: 'var(--muted)', marginBottom: '20px', lineHeight: '1.7' }}>Add transactions on the go or in bulk. FinFlow auto-categorizes everything and gives you instant spending breakdowns by category, merchant, or time period.</p>
+                  <ul className="check-list mb-24">
+                    <li><span className="check-icon"><i className="fa-solid fa-check"></i></span>20+ default categories with custom colors & icons</li>
+                    <li><span className="check-icon"><i className="fa-solid fa-check"></i></span>Split transactions across multiple categories</li>
+                    <li><span className="check-icon"><i className="fa-solid fa-check"></i></span>Attach receipts and notes to any transaction</li>
+                    <li><span className="check-icon"><i className="fa-solid fa-check"></i></span>Bulk CSV import from your bank statements</li>
+                    <li><span className="check-icon"><i className="fa-solid fa-check"></i></span>Recurring transaction auto-scheduling</li>
+                  </ul>
+                  <a className="btn btn-primary" onClick={() => openModal('signup')}>Try Free <i className="fa-solid fa-arrow-right"></i></a>
                 </div>
-                <div className="fp-card fade-up">
-                  <div className="fp-icon" style={{ background: '#E8F5E9' }}><i className="fa-solid fa-wallet" style={{ color: 'var(--green)' }}></i></div>
-                  <div className="fp-content"><h3>Budget Planning</h3><p>Set monthly budgets per category with color-coded progress bars. Alerts at 80% and 100% keep you on track.</p></div>
+                <div className="fade-up">
+                  <div className="mockup-card">
+                    <div className="mc-header">
+                      <div className="mc-dot" style={{ background: '#FF5F57' }}></div>
+                      <div className="mc-dot" style={{ background: '#FEBC2E' }}></div>
+                      <div className="mc-dot" style={{ background: '#28C840' }}></div>
+                      <span style={{ fontSize: '10px', color: 'rgba(255,255,255,.3)', marginLeft: 'auto' }}>Transactions</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '6px', marginBottom: '10px' }}>
+                      <div style={{ padding: '4px 10px', background: 'rgba(108,92,231,.3)', borderRadius: '20px', fontSize: '9px', fontWeight: '700', color: '#A78BFA' }}>All</div>
+                      <div style={{ padding: '4px 10px', background: 'rgba(255,255,255,.05)', borderRadius: '20px', fontSize: '9px', fontWeight: '600', color: 'rgba(255,255,255,.3)' }}>Income</div>
+                      <div style={{ padding: '4px 10px', background: 'rgba(255,255,255,.05)', borderRadius: '20px', fontSize: '9px', fontWeight: '600', color: 'rgba(255,255,255,.3)' }}>Expense</div>
+                    </div>
+                    <div className="mc-tx"><div className="mc-tx-icon" style={{ background: 'rgba(74,222,128,.2)' }}>💼</div><div><div className="mc-tx-name">Salary — Employer Ltd</div><div className="mc-tx-cat">Jul 1 · Recurring</div></div><div className="mc-tx-amt" style={{ color: '#4ADE80' }}>+$3,500</div></div>
+                    <div className="mc-tx"><div className="mc-tx-icon" style={{ background: 'rgba(248,113,113,.2)' }}>🛍</div><div><div className="mc-tx-name">Shoprite</div><div className="mc-tx-cat">Jul 8 · Food & Dining</div></div><div className="mc-tx-amt" style={{ color: '#F87171' }}>-$128</div></div>
+                    <div className="mc-tx"><div className="mc-tx-icon" style={{ background: 'rgba(251,191,36,.2)' }}>🎬</div><div><div className="mc-tx-name">Netflix</div><div className="mc-tx-cat">Jul 1 · Entertainment</div></div><div className="mc-tx-amt" style={{ color: '#F87171' }}>-$15.99</div></div>
+                    <div className="mc-tx"><div className="mc-tx-icon" style={{ background: 'rgba(108,92,231,.3)' }}>💻</div><div><div className="mc-tx-name">Freelance Project</div><div className="mc-tx-cat">Jul 12 · Freelance</div></div><div className="mc-tx-amt" style={{ color: '#4ADE80' }}>+$850</div></div>
+                    <div className="mc-tx"><div className="mc-tx-icon" style={{ background: 'rgba(6,182,212,.2)' }}>🚗</div><div><div className="mc-tx-name">Uber</div><div className="mc-tx-cat">Jul 5 · Transport</div></div><div className="mc-tx-amt" style={{ color: '#F87171' }}>-$65</div></div>
+                  </div>
                 </div>
-                <div className="fp-card fade-up">
-                  <div className="fp-icon" style={{ background: '#EDE9FF' }}><i className="fa-solid fa-building-columns" style={{ color: 'var(--violet)' }}></i></div>
-                  <div className="fp-content"><h3>Multi-Account Support</h3><p>Manage all your bank accounts, mobile money, and cash in one place with a unified net worth dashboard.</p></div>
-                </div>
-                <div className="fp-card fade-up">
-                  <div className="fp-icon" style={{ background: '#FFF8E1' }}><i className="fa-solid fa-bullseye" style={{ color: 'var(--amber)' }}></i></div>
-                  <div className="fp-content"><h3>Savings Goals</h3><p>Create goals with target amounts, deadlines, and progress tracking. Get projected completion dates automatically.</p></div>
-                </div>
-                <div className="fp-card fade-up">
-                  <div className="fp-icon" style={{ background: '#E0F7FA' }}><i className="fa-solid fa-chart-line" style={{ color: '#0097A7' }}></i></div>
-                  <div className="fp-content"><h3>Smart Analytics</h3><p>Rich visual dashboards with monthly charts, category breakdowns, and income vs expense trends.</p></div>
-                </div>
-                <div className="fp-card fade-up">
-                  <div className="fp-icon" style={{ background: '#FCE4EC' }}><i className="fa-solid fa-file-pdf" style={{ color: '#C2185B' }}></i></div>
-                  <div className="fp-content"><h3>Monthly PDF Reports</h3><p>Auto-generated branded PDF reports every month-end with financial highlights and savings rate.</p></div>
-                </div>
-                <div className="fp-card fade-up">
-                  <div className="fp-icon" style={{ background: '#E8EAF6' }}><i className="fa-solid fa-arrows-rotate" style={{ color: '#3F51B5' }}></i></div>
-                  <div className="fp-content"><h3>Recurring Tracker</h3><p>Track subscriptions, get reminded before charges, and see your total annual subscription cost.</p></div>
-                </div>
-                <div className="fp-card fade-up">
-                  <div className="fp-icon" style={{ background: '#E0F2F1' }}><i className="fa-solid fa-bell" style={{ color: '#00796B' }}></i></div>
-                  <div className="fp-content"><h3>Smart Alerts</h3><p>In-app and email notifications for budget limits, goal milestones, and monthly report summaries.</p></div>
-                </div>
+              </div>
+
+              {/* Full features grid */}
+              <div className="tc mb-48">
+                <div className="eyebrow"><i className="fa-solid fa-list-check"></i> All Features</div>
+                <h2 className="sec-title">Everything included in <span className="italic">FinFlow</span></h2>
+              </div>
+              <div className="fp-grid fade-up">
+                <div className="fp-card"><div className="fp-icon" style={{ background: '#E3F0FF' }}>📊</div><div><h3 style={{ fontSize: '17px', fontWeight: '700', marginBottom: '8px' }}>Expense Tracking</h3><p style={{ fontSize: '13.5px', color: 'var(--muted)', lineHeight: '1.65' }}>Track daily, weekly, monthly expenses. Smart auto-categorization saves time and gives instant spending clarity with drill-down to individual transactions.</p></div></div>
+                <div className="fp-card"><div className="fp-icon" style={{ background: '#E8F5E9' }}>💰</div><div><h3 style={{ fontSize: '17px', fontWeight: '700', marginBottom: '8px' }}>Budget Planning</h3><p style={{ fontSize: '13.5px', color: 'var(--muted)', lineHeight: '1.65' }}>Set monthly budgets per category with color-coded progress bars. Alerts at 80% and 100%. Roll-over rules. Zero-based budgeting mode.</p></div></div>
+                <div className="fp-card"><div className="fp-icon" style={{ background: '#EDE9FF' }}>🏦</div><div><h3 style={{ fontSize: '17px', fontWeight: '700', marginBottom: '8px' }}>Multi-Account Support</h3><p style={{ fontSize: '13.5px', color: 'var(--muted)', lineHeight: '1.65' }}>Manage checking, savings, credit, cash, and mobile money accounts. Unified net worth dashboard with balance trend charts.</p></div></div>
+                <div className="fp-card"><div className="fp-icon" style={{ background: '#FFF8E1' }}>🎯</div><div><h3 style={{ fontSize: '17px', fontWeight: '700', marginBottom: '8px' }}>Savings Goals</h3><p style={{ fontSize: '13.5px', color: 'var(--muted)', lineHeight: '1.65' }}>Create goals with target amounts, deadlines, and progress tracking. Get projected completion dates and required monthly contribution recommendations.</p></div></div>
+                <div className="fp-card"><div className="fp-icon" style={{ background: '#E0F7FA' }}>📈</div><div><h3 style={{ fontSize: '17px', fontWeight: '700', marginBottom: '8px' }}>Rich Analytics</h3><p style={{ fontSize: '13.5px', color: 'var(--muted)', lineHeight: '1.65' }}>Monthly charts, category breakdowns, merchant analysis, net worth trends, and income vs expense comparisons over 6 or 12 months.</p></div></div>
+                <div className="fp-card"><div className="fp-icon" style={{ background: '#FCE4EC' }}>📄</div><div><h3 style={{ fontSize: '17px', fontWeight: '700', marginBottom: '8px' }}>Monthly PDF Reports</h3><p style={{ fontSize: '13.5px', color: 'var(--muted)', lineHeight: '1.65' }}>Auto-generated branded PDF reports every month-end with spending highlights, savings rate, top categories, and biggest transactions.</p></div></div>
+                <div className="fp-card"><div className="fp-icon" style={{ background: '#E8EAF6' }}>🔄</div><div><h3 style={{ fontSize: '17px', fontWeight: '700', marginBottom: '8px' }}>Recurring Tracker</h3><p style={{ fontSize: '13.5px', color: 'var(--muted)', lineHeight: '1.65' }}>Track subscriptions automatically, get reminded before charges, see total annual subscription cost, and detect forgotten subscriptions.</p></div></div>
+                <div className="fp-card"><div className="fp-icon" style={{ background: '#E0F2F1' }}>📤</div><div><h3 style={{ fontSize: '17px', fontWeight: '700', marginBottom: '8px' }}>CSV Export</h3><p style={{ fontSize: '13.5px', color: 'var(--muted)', lineHeight: '1.65' }}>Export any filtered transaction set to CSV. Choose date range, category, account, and type filters before exporting. Works great with Excel or Google Sheets.</p></div></div>
+              </div>
+            </div>
+          </section>
+
+          <section className="section" style={{ background: 'var(--surface)' }}>
+            <div className="container tc">
+              <h2 className="sec-title">Why Thousands Trust <span className="italic">FinFlow</span></h2>
+              <div className="why-grid fade-up">
+                <div className="why-card"><div className="why-icon" style={{ background: '#E3F0FF' }}>⚡</div><h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '10px' }}>Save Time on Manual Work</h3><p style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.65' }}>Smart categorization and auto-recurring detection save hours every month. FinFlow does the work so you don't have to.</p></div>
+                <div className="why-card"><div className="why-icon" style={{ background: '#EDE9FF' }}>🔒</div><h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '10px' }}>Bank-Level Security</h3><p style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.65' }}>All data is encrypted at rest and in transit. Row-level security means your data is 100% private — no sharing, no ads, ever.</p></div>
+                <div className="why-card"><div className="why-icon" style={{ background: '#E8F5E9' }}>🌍</div><h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '10px' }}>Works Worldwide</h3><p style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.65' }}>No US-only bank sync. FinFlow works for anyone, anywhere — Nigeria, Kenya, UK, India, or beyond. Multi-currency support in V2.</p></div>
               </div>
             </div>
           </section>
@@ -788,59 +1059,85 @@ const Landing = () => {
         <div className="page active" id="page-pricing-page">
           <section className="inner-hero">
             <div className="container tc">
-              <h1>Transparent pricing for <span style={{ color: 'var(--violet)' }}>everyone</span></h1>
-              <p>Start free forever. Upgrade when you need more power. No hidden fees.</p>
+              <div className="eyebrow"><i className="fa-regular fa-gem"></i> Pricing</div>
+              <h1>Simple, transparent<br /><span style={{ color: 'var(--violet)' }}>pricing for everyone</span></h1>
+              <p>Start free. Upgrade when you need more. No surprises, no hidden fees.</p>
             </div>
           </section>
           <section className="section">
             <div className="container tc">
               <div className="pricing-grid" style={{ maxWidth: '980px', margin: '0 auto 40px' }}>
                 <div className="pc fade-up">
-                  <div className="pc-plan"><div className="pc-plan-dot" style={{ background: '#9BACC8' }}></div> Basic</div>
+                  <div className="pc-plan"><div className="pc-dot" style={{ background: '#9BACC8' }}></div>Basic</div>
                   <div className="pc-price">$0<span>/mo</span></div>
                   <div className="pc-desc">Perfect for getting started</div>
-                  <a className="btn btn-dark" style={{ width: '100%', justifyContent: 'center' }} onClick={() => openModal('signup')}>Get Started</a>
+                  <a className="btn btn-dark" style={{ width: '100%', justifyContent: 'center' }} onClick={() => openModal('signup')}>Get Started Free</a>
                   <div className="pc-divider"></div>
                   <ul className="pc-feats">
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Up to 3 accounts</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> 100 transactions/month</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> 5 budget categories</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> 2 savings goals</li>
-                    <li><div className="pc-x"><i className="fa-solid fa-xmark"></i></div><span style={{ color: 'var(--muted-c)' }}>PDF reports</span></li>
-                    <li><div className="pc-x"><i className="fa-solid fa-xmark"></i></div><span style={{ color: 'var(--muted-c)' }}>CSV export</span></li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>3 accounts</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>100 tx/month</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>5 budgets</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>2 goals</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>3-month history</li>
+                    <li><div className="pc-x"><i className="fa-solid fa-xmark"></i></div><span style={{ color: 'var(--muted)' }}>PDF reports</span></li>
+                    <li><div className="pc-x"><i className="fa-solid fa-xmark"></i></div><span style={{ color: 'var(--muted)' }}>Email alerts</span></li>
+                    <li><div className="pc-x"><i className="fa-solid fa-xmark"></i></div><span style={{ color: 'var(--muted)' }}>Recurring tx</span></li>
                   </ul>
                 </div>
                 <div className="pc featured fade-up">
-                  <div className="pc-popular"><i className="fa-solid fa-bolt"></i> Pro (Recommended)</div>
-                  <div className="pc-plan" style={{ marginTop: '8px' }}><div className="pc-plan-dot" style={{ background: 'var(--violet)' }}></div> Pro</div>
-                  <div className="pc-price">$19<span>/mo</span></div>
-                  <div className="pc-desc">Best for individuals & teams</div>
-                  <a className="btn btn-violet" style={{ width: '100%', justifyContent: 'center' }} onClick={() => openModal('signup')}>Get Started</a>
+                  <div className="pc-popular">⚡ Most Popular</div>
+                  <div className="pc-plan" style={{ marginTop: '8px' }}><div className="pc-dot" style={{ background: 'var(--violet)' }}></div>Pro</div>
+                  <div className="pc-price">$5<span>/mo</span></div>
+                  <div className="pc-desc">For individuals & households · $45/yr</div>
+                  <a className="btn btn-violet" style={{ width: '100%', justifyContent: 'center' }} onClick={() => openModal('signup')}>Start Pro Free <i className="fa-solid fa-arrow-right"></i></a>
                   <div className="pc-divider"></div>
                   <ul className="pc-feats">
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Unlimited accounts</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Unlimited transactions</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Unlimited budgets & goals</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> PDF & CSV reports</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Email alerts</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Priority support</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Unlimited accounts</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Unlimited transactions</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Unlimited budgets</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Unlimited goals</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Lifetime history</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>PDF & CSV reports</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Email alerts</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Priority support</li>
                   </ul>
                 </div>
                 <div className="pc fade-up">
-                  <div className="pc-plan"><div className="pc-plan-dot" style={{ background: 'var(--amber)' }}></div> Business</div>
-                  <div className="pc-price">$49<span>/mo</span></div>
-                  <div className="pc-desc">For teams & businesses</div>
-                  <a className="btn btn-outline" style={{ width: '100%', justifyContent: 'center' }} onClick={() => openModal('signup')}>Get Started</a>
+                  <div className="pc-plan"><div className="pc-dot" style={{ background: 'var(--amber)' }}></div>Business</div>
+                  <div className="pc-price">$19<span>/mo</span></div>
+                  <div className="pc-desc">For teams & growing businesses</div>
+                  <a className="btn btn-outline" style={{ width: '100%', justifyContent: 'center' }} onClick={() => showPage('contact')}>Contact Sales</a>
                   <div className="pc-divider"></div>
                   <ul className="pc-feats">
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Everything in Pro</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Multi-user access</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Automated reports</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Dedicated manager</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> Premium support</li>
-                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div> API access</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Everything in Pro</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>10 team members</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Shared dashboards</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Custom reports</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Dedicated manager</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>API access</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Premium SLA</li>
+                    <li><div className="pc-check"><i className="fa-solid fa-check"></i></div>Onboarding call</li>
                   </ul>
                 </div>
+              </div>
+              
+              <div style={{ overflowX: 'auto', marginTop: '60px' }}>
+                <h2 className="sec-title" style={{ fontSize: '32px', marginBottom: '8px' }}>Compare all plans</h2>
+                <table className="comp-table">
+                  <thead><tr><th style={{ textAlign: 'left' }}>Feature</th><th className="comp-head-free">Basic</th><th className="comp-head-pro">Pro ⚡</th><th className="comp-head-biz">Business</th></tr></thead>
+                  <tbody>
+                    <tr><td>Accounts</td><td style={{ color: 'var(--muted)' }}>3</td><td style={{ color: 'var(--violet)', fontWeight: '700' }}>Unlimited</td><td>Unlimited</td></tr>
+                    <tr><td>Transactions/month</td><td style={{ color: 'var(--muted)' }}>100</td><td style={{ color: 'var(--violet)', fontWeight: '700' }}>Unlimited</td><td>Unlimited</td></tr>
+                    <tr><td>Budget categories</td><td style={{ color: 'var(--muted)' }}>5</td><td style={{ color: 'var(--violet)', fontWeight: '700' }}>Unlimited</td><td>Unlimited</td></tr>
+                    <tr><td>Savings goals</td><td style={{ color: 'var(--muted)' }}>2</td><td style={{ color: 'var(--violet)', fontWeight: '700' }}>Unlimited</td><td>Unlimited</td></tr>
+                    <tr><td>Analytics history</td><td style={{ color: 'var(--muted)' }}>3 months</td><td style={{ color: 'var(--violet)', fontWeight: '700' }}>Lifetime</td><td>Lifetime</td></tr>
+                    <tr><td>PDF reports</td><td className="comp-no">✗</td><td className="comp-yes" style={{ color: 'var(--violet)' }}>✓</td><td className="comp-yes">✓</td></tr>
+                    <tr><td>CSV export</td><td className="comp-no">✗</td><td className="comp-yes" style={{ color: 'var(--violet)' }}>✓</td><td className="comp-yes">✓</td></tr>
+                    <tr><td>Email alerts</td><td className="comp-no">✗</td><td className="comp-yes" style={{ color: 'var(--violet)' }}>✓</td><td className="comp-yes">✓</td></tr>
+                    <tr><td>Team members</td><td className="comp-no">✗</td><td className="comp-no">✗</td><td style={{ fontWeight: '700' }}>Up to 10</td></tr>
+                    <tr><td>API access</td><td className="comp-no">✗</td><td className="comp-no">✗</td><td className="comp-yes">✓</td></tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </section>
@@ -852,38 +1149,55 @@ const Landing = () => {
         <div className="page active" id="page-about">
           <section className="inner-hero">
             <div className="container tc">
-              <h1>Built by people who <span style={{ color: 'var(--violet)' }}>wanted</span><br />better money tools</h1>
-              <p>FinFlow started as a weekend project and grew into a mission: give everyone clarity over where their money goes.</p>
+              <div className="eyebrow">👋 Our Story</div>
+              <h1>Built by people who wanted<br /><span style={{ color: 'var(--violet)' }}>better money tools</span></h1>
+              <p>FinFlow started as a weekend project in Lagos. It grew into a mission to give financial clarity to millions.</p>
             </div>
           </section>
           <section className="section">
             <div className="container">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '72px', alignItems: 'center', marginBottom: '80px' }}>
+              <div className="about-stats fade-up">
+                <div className="astat"><div className="astat-val">25K+</div><div className="astat-lbl">Active users worldwide</div></div>
+                <div className="astat"><div className="astat-val">2021</div><div className="astat-lbl">Year founded in Lagos</div></div>
+                <div className="astat"><div className="astat-val">140+</div><div className="astat-lbl">Countries served</div></div>
+                <div className="astat"><div className="astat-val">$2.4M</div><div className="astat-lbl">Saved by our users</div></div>
+              </div>
+
+              <div className="split-sec" style={{ marginBottom: '80px' }}>
                 <div className="fade-up">
-                  <div className="section-eyebrow"><i className="fa-solid fa-earth-africa" style={{ fontSize: '10px' }}></i> Mission</div>
+                  <div className="eyebrow">🌍 Mission</div>
                   <h2 style={{ fontSize: '36px', fontWeight: '800', letterSpacing: '-1.5px', marginBottom: '14px' }}>Give every user <span style={{ color: 'var(--violet)' }}>clarity</span> over their finances</h2>
-                  <p style={{ color: 'var(--muted-c)', fontSize: '15px', lineHeight: '1.7', marginBottom: '16px' }}>Most people don't actively track spending. Tools like YNAB are complex and US-centric. FinFlow fills the gap for emerging market users worldwide.</p>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: 'var(--mid)' }}><span style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'var(--green-soft)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: '800', flexShrink: 0, marginTop: '2px' }}><i className="fa-solid fa-check"></i></span>No bank sync required — works worldwide</li>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: 'var(--mid)' }}><span style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'var(--green-soft)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: '800', flexShrink: 0, marginTop: '2px' }}><i className="fa-solid fa-check"></i></span>Designed for young professionals globally</li>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: 'var(--mid)' }}><span style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'var(--green-soft)', color: 'var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: '800', flexShrink: 0, marginTop: '2px' }}><i className="fa-solid fa-check"></i></span>Privacy-first — your data stays yours</li>
+                  <p style={{ fontSize: '15px', color: 'var(--muted)', lineHeight: '1.7', marginBottom: '16px' }}>Most people don't actively track their spending. Those who try use spreadsheets that break, banking apps that lack analysis, or tools like YNAB that are too complex and US-centric.</p>
+                  <p style={{ fontSize: '15px', color: 'var(--muted)', lineHeight: '1.7', marginBottom: '24px' }}>FinFlow was built to fill that gap — zero-based budgeting discipline meets the ease of modern apps, designed for the global user, not just Silicon Valley.</p>
+                  <ul className="check-list">
+                    <li><span className="check-icon"><i className="fa-solid fa-check"></i></span>No bank sync required — works everywhere</li>
+                    <li><span className="check-icon"><i className="fa-solid fa-check"></i></span>Designed for young professionals in emerging markets</li>
+                    <li><span className="check-icon"><i className="fa-solid fa-check"></i></span>Privacy-first — your data is never sold or shared</li>
+                    <li><span className="check-icon"><i className="fa-solid fa-check"></i></span>Indie SaaS — built to be profitable, not VC-driven</li>
                   </ul>
                 </div>
-                <div className="fade-up" style={{ background: 'linear-gradient(135deg,#6C5CE7,#4834C4)', borderRadius: '20px', padding: '40px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '48px', marginBottom: '16px' }}><i className="fa-solid fa-lightbulb" style={{ color: '#fff' }}></i></div>
-                  <div style={{ fontSize: '32px', fontWeight: '900', color: '#fff', letterSpacing: '-1px', marginBottom: '10px' }}>Our Vision</div>
-                  <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '15px', lineHeight: '1.6' }}>"Become the go-to personal finance dashboard for young professionals and households in emerging markets and beyond."</p>
-                  <div style={{ height: '1px', background: 'rgba(255,255,255,.15)', margin: '24px 0' }}></div>
-                  <div style={{ fontSize: '32px', fontWeight: '900', color: '#A78BFA', letterSpacing: '-1px', marginBottom: '10px' }}>Our Mission</div>
-                  <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '15px', lineHeight: '1.6' }}>"Give every user clarity over where their money goes and confidence in where it is going."</p>
+                <div className="fade-up" style={{ background: 'linear-gradient(135deg,#6C5CE7,#4834C4)', borderRadius: '20px', padding: '40px' }}>
+                  <div style={{ textAlign: 'center', marginBottom: '24px' }}><div style={{ fontSize: '40px', marginBottom: '10px' }}>💡</div><div style={{ fontSize: '28px', fontWeight: '900', color: '#fff', marginBottom: '10px' }}>Vision</div><p style={{ color: 'rgba(255,255,255,.7)', fontSize: '15px', lineHeight: '1.6', fontStyle: 'italic' }}>"Become the go-to personal finance dashboard for young professionals and households in emerging markets and beyond."</p></div>
+                  <div style={{ height: '1px', background: 'rgba(255,255,255,.15)', margin: '20px 0' }}></div>
+                  <div style={{ textAlign: 'center' }}><div style={{ fontSize: '28px', fontWeight: '900', color: '#A78BFA', marginBottom: '10px' }}>Mission</div><p style={{ color: 'rgba(255,255,255,.7)', fontSize: '15px', lineHeight: '1.6', fontStyle: 'italic' }}>"Give every user clarity over where their money goes and confidence in where it is going."</p></div>
                 </div>
               </div>
-              <div className="tc" style={{ marginBottom: '40px' }}><div className="section-eyebrow"><i className="fa-solid fa-users" style={{ fontSize: '10px' }}></i> Team</div><h2 className="section-title">The people behind <span style={{ fontFamily: 'var(--font-d)', fontStyle: 'italic', fontWeight: 400 }}>FinFlow</span></h2></div>
               <div className="team-grid fade-up">
-                <div className="team-card"><div className="team-avatar" style={{ background: 'linear-gradient(135deg,#1565C0,#42A5F5)' }}>A</div><div className="team-name">Ade Okonkwo</div><div className="team-role">CEO & Co-Founder</div></div>
-                <div className="team-card"><div className="team-avatar" style={{ background: 'linear-gradient(135deg,#6C5CE7,#A78BFA)' }}>K</div><div className="team-name">Kemi Adeyemi</div><div className="team-role">CTO & Co-Founder</div></div>
-                <div className="team-card"><div className="team-avatar" style={{ background: 'linear-gradient(135deg,#E65100,#FF7043)' }}>T</div><div className="team-name">Tunde Balogun</div><div className="team-role">Head of Design</div></div>
-                <div className="team-card"><div className="team-avatar" style={{ background: 'linear-gradient(135deg,#2E7D32,#4CAF50)' }}>S</div><div className="team-name">Sade Musa</div><div className="team-role">Head of Growth</div></div>
+                <div className="team-card"><div className="team-avatar" style={{ background: 'linear-gradient(135deg,#1565C0,#42A5F5)' }}>A</div><div className="team-name">Ade Okonkwo</div><div className="team-role">CEO & Co-Founder</div><div className="team-links"><div className="team-link"><i className="fa-brands fa-linkedin-in"></i></div><div className="team-link"><i className="fa-brands fa-x-twitter"></i></div></div></div>
+                <div className="team-card"><div className="team-avatar" style={{ background: 'linear-gradient(135deg,#6C5CE7,#A78BFA)' }}>K</div><div className="team-name">Kemi Adeyemi</div><div className="team-role">CTO & Co-Founder</div><div className="team-links"><div className="team-link"><i className="fa-brands fa-github"></i></div><div className="team-link"><i className="fa-brands fa-linkedin-in"></i></div></div></div>
+                <div className="team-card"><div className="team-avatar" style={{ background: 'linear-gradient(135deg,#E65100,#FF7043)' }}>T</div><div className="team-name">Tunde Balogun</div><div className="team-role">Head of Design</div><div className="team-links"><div className="team-link"><i className="fa-brands fa-dribbble"></i></div><div className="team-link"><i className="fa-brands fa-linkedin-in"></i></div></div></div>
+                <div className="team-card"><div className="team-avatar" style={{ background: 'linear-gradient(135deg,#2E7D32,#4CAF50)' }}>S</div><div className="team-name">Sade Musa</div><div className="team-role">Head of Growth</div><div className="team-links"><div className="team-link"><i className="fa-brands fa-linkedin-in"></i></div><div className="team-link"><i className="fa-brands fa-x-twitter"></i></div></div></div>
+              </div>
+
+              {/* Values */}
+              <div className="tc" style={{ marginTop: '80px' }}>
+                <div className="eyebrow">💎 Core Values</div>
+                <h2 className="sec-title">What drives us every day</h2>
+              </div>
+              <div className="values-grid fade-up">
+                <div className="val-card"><div className="val-icon">🎯</div><h3>User First, Always</h3><p>We build for the user, not for VCs. Every feature is designed to solve a real problem for our community.</p></div>
+                <div className="val-card"><div className="val-icon">🔒</div><h3>Privacy by Default</h3><p>Your financial data is yours. We encrypt it, we protect it, and we never sell it to advertisers.</p></div>
+                <div className="val-card"><div className="val-icon">⚡</div><h3>Relentless Simplicity</h3><p>Finance is complicated enough. Our job is to strip away the noise and make managing money effortlessly clear.</p></div>
               </div>
             </div>
           </section>
@@ -895,34 +1209,60 @@ const Landing = () => {
         <div className="page active" id="page-blog">
           <section className="inner-hero">
             <div className="container tc">
+              <div className="eyebrow"><i className="fa-solid fa-pen-nib"></i> Our Blog</div>
               <h1>Financial tips to help<br /><span style={{ color: 'var(--violet)' }}>you grow</span></h1>
               <p>Expert guides, real stories, and actionable advice to master your money.</p>
             </div>
           </section>
           <section className="section">
             <div className="container">
-              <div className="blog-hero-card fade-up">
+              <div className="blog-hero-card fade-up" onClick={() => showToast('Opening article...', '📖')}>
                 <div className="blog-hero-img" style={{ background: 'linear-gradient(135deg,#6C5CE7,#4834C4)' }}><i className="fa-solid fa-chart-column" style={{ color: '#fff' }}></i></div>
                 <div className="blog-hero-body">
-                  <div className="blog-tag">Featured · Finance Tips</div>
-                  <h2>The Zero-Based Budgeting Method: Why Every Dollar Needs a Job</h2>
-                  <p>Zero-based budgeting is the single most powerful tool for people who want to take control of their spending. Here's a step-by-step guide to implementing it with FinFlow.</p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}><div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'linear-gradient(135deg,#6C5CE7,#A78BFA)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: '700', fontSize: '13px' }}>A</div><div><div style={{ fontSize: '12px', fontWeight: '700' }}>Ade Okonkwo</div><div style={{ fontSize: '11px', color: 'var(--muted-c)' }}>July 10, 2025 · 8 min read</div></div></div>
-                  <a className="btn btn-dark" onClick={() => showToast('Opening article...', '📖')}>Read Article <i className="fa-solid fa-arrow-right"></i></a>
+                  <div className="btag">Featured · Finance Tips</div>
+                  <h2 style={{ fontSize: '32px', fontWeight: '800', letterSpacing: '-1px', marginBottom: '14px', lineHeight: '1.2' }}>The Zero-Based Budgeting Method: Why Every Dollar Needs a Job</h2>
+                  <p style={{ fontSize: '15px', color: 'var(--muted)', marginBottom: '24px', lineHeight: '1.7' }}>Zero-based budgeting is the single most powerful tool for people who want to take control of their spending. Here's a step-by-step guide to implementing it with FinFlow.</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
+                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg,#6C5CE7,#A78BFA)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: '700', fontSize: '14px' }}>A</div>
+                    <div><div style={{ fontSize: '13px', fontWeight: '700' }}>Ade Okonkwo</div><div style={{ fontSize: '12px', color: 'var(--muted)' }}>July 10, 2025 · 8 min read</div></div>
+                  </div>
+                  <a className="btn btn-dark">Read Article <i className="fa-solid fa-arrow-right"></i></a>
                 </div>
               </div>
+              
               <div className="articles-grid fade-up">
                 <div className="article-card" onClick={() => showToast('Opening article...', '📖')}>
                   <div className="article-img" style={{ background: 'linear-gradient(135deg,#1565C0,#42A5F5)' }}><i className="fa-solid fa-lightbulb" style={{ color: '#fff' }}></i></div>
-                  <div className="article-body"><div className="article-cat">Budgeting</div><div className="article-title">Working on building your savings: 5 steps that actually work</div><div className="article-meta">Favour Ndi · Sep 27, 2025 · 5 min</div></div>
+                  <div className="article-body">
+                    <div className="btag">Budgeting</div>
+                    <div className="article-title" style={{ fontSize: '18px', fontWeight: '700', marginBottom: '12px', lineHeight: '1.4' }}>Working on building your savings: 5 steps that actually work</div>
+                    <div className="article-meta" style={{ fontSize: '12px', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '700', color: '#666' }}>F</div>
+                      Favour Ndi · Sep 27, 2025 · 5 min read
+                    </div>
+                  </div>
                 </div>
                 <div className="article-card" onClick={() => showToast('Opening article...', '📖')}>
                   <div className="article-img" style={{ background: 'linear-gradient(135deg,#2E7D32,#4CAF50)' }}><i className="fa-solid fa-building-columns" style={{ color: '#fff' }}></i></div>
-                  <div className="article-body"><div className="article-cat">Investing</div><div className="article-title">Get the Most Out of FinFlow using the Money Flow strategy</div><div className="article-meta">Carlos Mrueeze · Jul 1, 2025 · 4 min</div></div>
+                  <div className="article-body">
+                    <div className="btag">Investing</div>
+                    <div className="article-title" style={{ fontSize: '18px', fontWeight: '700', marginBottom: '12px', lineHeight: '1.4' }}>Get the Most Out of FinFlow using the Money Flow strategy</div>
+                    <div className="article-meta" style={{ fontSize: '12px', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '700', color: '#666' }}>C</div>
+                      Carlos Mrueeze · Jul 1, 2025 · 4 min read
+                    </div>
+                  </div>
                 </div>
                 <div className="article-card" onClick={() => showToast('Opening article...', '📖')}>
                   <div className="article-img" style={{ background: 'linear-gradient(135deg,#E65100,#FF7043)' }}><i className="fa-solid fa-bullseye" style={{ color: '#fff' }}></i></div>
-                  <div className="article-body"><div className="article-cat">Debt</div><div className="article-title">Financial Fitness: How to Pay Down Debt and Build Wealth</div><div className="article-meta">Shayan Kuroda · Jun 15 · 7 min</div></div>
+                  <div className="article-body">
+                    <div className="btag">Debt</div>
+                    <div className="article-title" style={{ fontSize: '18px', fontWeight: '700', marginBottom: '12px', lineHeight: '1.4' }}>Financial Fitness: How to Pay Down Debt and Build Wealth</div>
+                    <div className="article-meta" style={{ fontSize: '12px', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '700', color: '#666' }}>S</div>
+                      Shayan Kuroda · Jun 15 · 7 min read
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -935,8 +1275,9 @@ const Landing = () => {
         <div className="page active" id="page-contact">
           <section className="inner-hero">
             <div className="container tc">
+              <div className="eyebrow"><i className="fa-regular fa-paper-plane"></i> Get In Touch</div>
               <h1>We'd love to <span style={{ color: 'var(--violet)' }}>hear from you</span></h1>
-              <p>Got a question, feature request, or want to say hello? We respond within 24 hours.</p>
+              <p>Got a question, feature request, or want to say hello? Our team usually responds within 2 hours.</p>
             </div>
           </section>
           <section className="section">
@@ -944,35 +1285,69 @@ const Landing = () => {
               <div className="contact-grid">
                 <div className="fade-up">
                   <h3 style={{ fontSize: '22px', fontWeight: '800', marginBottom: '6px' }}>Send us a message</h3>
-                  <p style={{ color: 'var(--muted-c)', fontSize: '14px', marginBottom: '24px' }}>We'll get back to you within 24 hours.</p>
-                  <div className="form-row" style={{ marginBottom: '14px' }}>
-                    <div className="form-group" style={{ marginBottom: 0 }}><label className="form-label">First Name</label><input className="form-input" placeholder="John" /></div>
-                    <div className="form-group" style={{ marginBottom: 0 }}><label className="form-label">Last Name</label><input className="form-input" placeholder="Doe" /></div>
+                  <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '24px' }}>Fill out the form below and we'll get back to you shortly.</p>
+                  
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">First Name</label>
+                      <input className="form-input" placeholder="John" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Last Name</label>
+                      <input className="form-input" placeholder="Doe" />
+                    </div>
                   </div>
-                  <div className="form-group"><label className="form-label">Email Address</label><input className="form-input" type="email" placeholder="john@example.com" /></div>
-                  <div className="form-group"><label className="form-label">Subject</label><input className="form-input" placeholder="How can we help?" /></div>
-                  <div className="form-group"><label className="form-label">Message</label><textarea className="form-textarea" placeholder="Tell us more..."></textarea></div>
-                  <button className="btn btn-dark" style={{ width: '100%', justifyContent: 'center', height: '50px' }} onClick={() => showToast('Message sent! We\'ll reply within 24hrs.', '✅')}>Send Message <i className="fa-solid fa-paper-plane"></i></button>
+                  <div className="form-group">
+                    <label className="form-label">Email Address</label>
+                    <input className="form-input" type="email" placeholder="john@example.com" />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Subject</label>
+                    <input className="form-input" placeholder="How can we help?" />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Message</label>
+                    <textarea className="form-textarea" placeholder="Tell us more about your inquiry..."></textarea>
+                  </div>
+                  
+                  <button className="btn btn-dark" style={{ width: '100%', justifyContent: 'center', height: '50px', marginTop: '10px' }} onClick={() => showToast('Message sent! We\'ll reply shortly.', '✅')}>
+                    Send Message <i className="fa-solid fa-paper-plane"></i>
+                  </button>
                 </div>
+                
                 <div className="fade-up">
-                  <h3 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '14px' }}>Get in touch</h3>
-                  <p style={{ color: 'var(--muted-c)', fontSize: '14px', marginBottom: '28px', lineHeight: '1.7' }}>Have a question about features, pricing, or your account? Our team is here to help.</p>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', marginBottom: '18px' }}>
-                    <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'var(--violet-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}><i className="fa-solid fa-envelope" style={{ color: 'var(--violet)' }}></i></div>
-                    <div><h4 style={{ fontSize: '14px', fontWeight: '700', marginBottom: '2px' }}>Email</h4><p style={{ fontSize: '13px', color: 'var(--muted-c)' }}>hello@finflow.app</p></div>
+                  <h3 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '14px' }}>Contact Information</h3>
+                  <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '28px', lineHeight: '1.7' }}>Have a quick question about features, pricing, or your account? Feel free to reach out directly via email or our live chat.</p>
+                  
+                  <div className="contact-methods mb-48">
+                    <div className="cm-card">
+                      <div className="cm-icon" style={{ color: 'var(--violet)' }}><i className="fa-regular fa-envelope"></i></div>
+                      <div>
+                        <div className="cm-title">Email</div>
+                        <div className="cm-val">hello@finflow.app</div>
+                        <div style={{ fontSize: '12px', color: 'var(--violet)', fontWeight: '600', marginTop: '4px', cursor: 'pointer' }} onClick={() => showToast('Copied to clipboard', '📋')}>Copy Address</div>
+                      </div>
+                    </div>
+                    <div className="cm-card">
+                      <div className="cm-icon" style={{ background: 'var(--blue-soft)', color: 'var(--blue)' }}><i className="fa-regular fa-comment-dots"></i></div>
+                      <div>
+                        <div className="cm-title">Live Chat</div>
+                        <div className="cm-val">Mon–Fri, 9am–6pm WAT</div>
+                      </div>
+                    </div>
+                    <div className="cm-card">
+                      <div className="cm-icon" style={{ background: 'var(--green-soft)', color: 'var(--green)' }}><i className="fa-solid fa-location-dot"></i></div>
+                      <div>
+                        <div className="cm-title">Location</div>
+                        <div className="cm-val">Lagos, Nigeria · Remote-first</div>
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', marginBottom: '18px' }}>
-                    <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'var(--blue-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}><i className="fa-solid fa-comment-dots" style={{ color: 'var(--blue)' }}></i></div>
-                    <div><h4 style={{ fontSize: '14px', fontWeight: '700', marginBottom: '2px' }}>Live Chat</h4><p style={{ fontSize: '13px', color: 'var(--muted-c)' }}>Mon–Fri, 9am–6pm WAT</p></div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', marginBottom: '28px' }}>
-                    <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'var(--green-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}><i className="fa-solid fa-location-dot" style={{ color: 'var(--green)' }}></i></div>
-                    <div><h4 style={{ fontSize: '14px', fontWeight: '700', marginBottom: '2px' }}>Location</h4><p style={{ fontSize: '13px', color: 'var(--muted-c)' }}>Lagos, Nigeria · Remote-first</p></div>
-                  </div>
+                  
                   <div style={{ background: 'var(--violet-soft)', borderRadius: '16px', padding: '24px' }}>
                     <div style={{ fontSize: '18px', marginBottom: '8px' }}><i className="fa-solid fa-rocket" style={{ color: 'var(--violet)' }}></i></div>
                     <div style={{ fontWeight: '700', marginBottom: '6px' }}>Ready to get started?</div>
-                    <p style={{ fontSize: '13px', color: 'var(--muted-c)', marginBottom: '16px' }}>Join 25,000+ users who've taken control of their finances.</p>
+                    <p style={{ fontSize: '13px', color: 'var(--muted)', marginBottom: '16px' }}>Join 25,000+ users who've taken control of their finances.</p>
                     <a className="btn btn-violet btn-sm" onClick={() => openModal('signup')}>Start Free Today <i className="fa-solid fa-arrow-right"></i></a>
                   </div>
                 </div>
