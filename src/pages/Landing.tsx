@@ -963,7 +963,7 @@ const Landing = () => {
               <a className="btn btn-dark btn-lg" onClick={() => openModal('signup')}>Get Started Now</a>
             </div>
             <div className="cta-v2-img">
-              <img src="/cta_woman.png" alt="Professional Woman" />
+              <img src={`${import.meta.env.BASE_URL}cta_woman.png`} alt="Professional Woman" />
             </div>
           </section>
         </div>

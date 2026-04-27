@@ -772,7 +772,7 @@
 }
 
 .landing-body .feat-phone {
-  width: 120px;
+  width: 160px;
   background: var(--dark-2);
   border-radius: 20px 20px 0 0;
   padding: 8px 8px 0;
@@ -1198,7 +1198,7 @@
 .landing-body .pc-price {
   font-size: 52px;
   font-weight: 900;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   line-height: 1;
   margin-bottom: 4px;
 }
@@ -2545,7 +2545,7 @@
   .landing-body .badge-pill { font-size: 11px; }
 
   /* Proof bar */
-  .landing-body .proof-inner { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .landing-body .proof-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .landing-body .proof-val { font-size: 22px; }
   .landing-body .proof-lbl { font-size: 10px; }
 
@@ -2556,8 +2556,9 @@
   .landing-body .section-eyebrow { font-size: 10px; }
 
   /* Features cards */
-  .landing-body .feat-card-img { height: 140px; }
+  .landing-body .feat-card-img { height: 180px; }
   .landing-body .feat-card-top { padding: 20px 20px 0; }
+  .landing-body .section-title { font-size: 26px; letter-spacing: -0.5px; line-height: 1.25; }
 
   /* Manage section */
   .landing-body .manage-section { padding: 48px 0; }
@@ -2644,11 +2645,16 @@
 .landing-body .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
 .landing-body .demo-title { font-size: 12px; color: rgba(255, 255, 255, .3); margin-left: auto; }
 .landing-body .demo-body { display: grid; grid-template-columns: 220px 1fr; min-height: 440px; }
+@media (max-width: 900px) {
+  .landing-body .demo-body { grid-template-columns: 1fr; }
+  .landing-body .demo-sidebar { display: none; }
+  .landing-body .demo-stat-row, .landing-body .demo-chart-row { grid-template-columns: 1fr; }
+}
 .landing-body .demo-sidebar { border-right: 1px solid rgba(255, 255, 255, .05); padding: 20px 14px; }
 .landing-body .demo-nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; margin-bottom: 3px; cursor: pointer; color: rgba(255, 255, 255, .4); font-size: 12px; font-weight: 500; transition: all .15s; }
 .landing-body .demo-nav-item:hover { background: rgba(255, 255, 255, .05); color: rgba(255, 255, 255, .7); }
 .landing-body .demo-nav-item.active-nav { background: rgba(108, 92, 231, .2); color: #A78BFA; }
-.landing-body .demo-content { padding: 20px; }
+.landing-body .demo-content { padding: 20px; overflow: hidden; }
 .landing-body .demo-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
 .landing-body .demo-stat { background: rgba(255, 255, 255, .04); border-radius: 10px; padding: 12px; }
 .landing-body .demo-stat-l { font-size: 9px; color: rgba(255, 255, 255, .3); margin-bottom: 4px; }
