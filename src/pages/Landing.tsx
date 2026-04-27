@@ -490,45 +490,6 @@ const Landing = () => {
             </div>
           </section>
 
-          {/* INTERACTIVE DASHBOARD DEMO */}
-          <section className="dash-demo">
-            <div className="demo-container">
-              <div className="tc" style={{ marginBottom: '40px' }}>
-                <div className="section-eyebrow" style={{ background: 'rgba(255,255,255,.08)', color: '#A78BFA' }}><i className="fa-solid fa-desktop" style={{ marginRight: '6px' }}></i> Live Preview</div>
-                <h2 className="section-title" style={{ color: '#fff' }}>See the dashboard <span className="italic">in action</span></h2>
-                <p className="section-desc" style={{ color: '#4A6A8A', maxWidth: '480px', margin: '0 auto' }}>Every page of the FinFlow dashboard is designed for clarity and speed — here's a preview.</p>
-              </div>
-              <div className="demo-window fade-up">
-                <div className="demo-topbar">
-                  <div className="demo-dot" style={{ background: '#FF5F57' }}></div>
-                  <div className="demo-dot" style={{ background: '#FFBD2E' }}></div>
-                  <div className="demo-dot" style={{ background: '#28C840' }}></div>
-                  <div className="demo-tab-row" style={{ margin: '0 0 0 20px' }}>
-                    <div className={`demo-tab ${activeDemoTab === 'overview' ? 'active-tab' : ''}`} onClick={() => setActiveDemoTab('overview')}>Overview</div>
-                    <div className={`demo-tab ${activeDemoTab === 'budgets' ? 'active-tab' : ''}`} onClick={() => setActiveDemoTab('budgets')}>Budgets</div>
-                    <div className={`demo-tab ${activeDemoTab === 'goals' ? 'active-tab' : ''}`} onClick={() => setActiveDemoTab('goals')}>Goals</div>
-                    <div className={`demo-tab ${activeDemoTab === 'analytics' ? 'active-tab' : ''}`} onClick={() => setActiveDemoTab('analytics')}>Analytics</div>
-                  </div>
-                  <div className="demo-title">finflow.app/dashboard</div>
-                </div>
-                <div className="demo-body">
-                  <div className="demo-sidebar">
-                    <div className={`demo-nav-item ${activeDemoTab === 'overview' ? 'active-nav' : ''}`}><i className="fa-solid fa-house"></i> Overview</div>
-                    <div className={`demo-nav-item ${activeDemoTab === 'budgets' ? 'active-nav' : ''}`}><i className="fa-solid fa-wallet"></i> Budgets</div>
-                    <div className={`demo-nav-item ${activeDemoTab === 'goals' ? 'active-nav' : ''}`}><i className="fa-solid fa-bullseye"></i> Goals</div>
-                    <div className={`demo-nav-item ${activeDemoTab === 'analytics' ? 'active-nav' : ''}`}><i className="fa-solid fa-chart-line"></i> Analytics</div>
-                    <div style={{ height: '1px', background: 'rgba(255,255,255,.05)', margin: '12px 0' }}></div>
-                    <div className="demo-nav-item"><i className="fa-solid fa-credit-card"></i> Cards</div>
-                    <div className="demo-nav-item"><i className="fa-solid fa-gear"></i> Settings</div>
-                  </div>
-                  <div className="demo-content">
-                    {renderDemoContent()}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
           {/* Manage section */}
           <section className="manage-section">
             <div className="manage-inner">
@@ -648,9 +609,8 @@ const Landing = () => {
           {/* GOAL TRACKER MOCKUP */}
           <section className="section" style={{ background: 'var(--surface)' }}>
             <div className="container">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+              <div className="split-sec">
                 <div className="fade-up">
-                  <div className="section-eyebrow"><i className="fa-solid fa-bullseye" style={{ marginRight: '6px' }}></i> Goal Tracking</div>
                   <h2 className="section-title">Reach your goals <span className="italic">faster</span></h2>
                   <p className="section-desc">Set specific financial targets and watch your progress in real-time. Whether it's a new home, a dream vacation, or an emergency fund, FinFlow keeps you motivated.</p>
                   <ul style={{ listStyle: 'none', marginTop: '24px' }}>
@@ -755,35 +715,6 @@ const Landing = () => {
                     <div className="t-metric-val">+$5K</div><div className="t-metric-lbl">Debt reduction</div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Comparison Table */}
-          <section className="section">
-            <div className="container tc">
-              <h2 className="section-title">How we compare to <span className="italic">competitors</span></h2>
-              <p className="section-desc" style={{ maxWidth: '480px', margin: '0 auto' }}>FinFlow offers a more comprehensive and intuitive financial experience than traditional tools.</p>
-              
-              <div className="fade-up" style={{ overflowX: 'auto' }}>
-                <table className="comp-table">
-                  <thead>
-                    <tr>
-                      <th>Feature</th>
-                      <th className="comp-head-free">Traditional Apps</th>
-                      <th className="comp-head-pro">FinFlow Pro</th>
-                      <th className="comp-head-biz">Spreadsheets</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Real-time Sync</td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td></tr>
-                    <tr><td>Smart Categorization</td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td></tr>
-                    <tr><td>Multi-user Access</td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td></tr>
-                    <tr><td>Budget Alerts</td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td></tr>
-                    <tr><td>Custom Reports</td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td></tr>
-                    <tr><td>Bank-level Security</td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-yes"><i className="fa-solid fa-check"></i></td><td className="comp-no"><i className="fa-solid fa-xmark"></i></td></tr>
-                  </tbody>
-                </table>
               </div>
             </div>
           </section>
@@ -923,7 +854,7 @@ const Landing = () => {
                 </div>
                 <a className="btn btn-dark btn-sm" onClick={() => showPage('blog')}>View All Blog</a>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '32px' }} className="fade-up">
+              <div className="blog-home-grid fade-up">
                 <div className="article-card" onClick={() => showPage('blog')} style={{ height: 'auto' }}>
                   <div className="article-img" style={{ background: '#f5f5f5', height: '300px' }}><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
                   <div className="article-body" style={{ padding: '32px' }}>
@@ -933,18 +864,18 @@ const Landing = () => {
                     <div className="article-meta">Favour Ndi · 5 min read</div>
                   </div>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                  <div className="article-card" onClick={() => showPage('blog')} style={{ display: 'flex', gap: '20px', border: 'none', background: 'transparent' }}>
-                    <div style={{ width: '140px', height: '110px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=400" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
-                    <div style={{ padding: '10px 0' }}>
+                <div className="blog-home-col">
+                  <div className="article-card home-sm-article" onClick={() => showPage('blog')}>
+                    <div className="home-sm-img"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=400" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
+                    <div className="home-sm-body">
                       <div className="btag">Budgeting</div>
                       <div className="article-title" style={{ fontSize: '16px', fontWeight: 700 }}>Get the Most Out of FinFlow using the Money Flow strategy</div>
                       <div className="article-meta">Carlos Mrueeze · 4 min read</div>
                     </div>
                   </div>
-                  <div className="article-card" onClick={() => showPage('blog')} style={{ display: 'flex', gap: '20px', border: 'none', background: 'transparent' }}>
-                    <div style={{ width: '140px', height: '110px', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}><img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&q=80&w=400" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
-                    <div style={{ padding: '10px 0' }}>
+                  <div className="article-card home-sm-article" onClick={() => showPage('blog')}>
+                    <div className="home-sm-img"><img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&q=80&w=400" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
+                    <div className="home-sm-body">
                       <div className="btag">Investing</div>
                       <div className="article-title" style={{ fontSize: '16px', fontWeight: 700 }}>Financial Fitness: How to Pay Down Debt and Build Wealth</div>
                       <div className="article-meta">Shayan Kuroda · 7 min read</div>
@@ -1120,7 +1051,7 @@ const Landing = () => {
                   </ul>
                 </div>
               </div>
-              
+
               <div style={{ overflowX: 'auto', marginTop: '60px' }}>
                 <h2 className="sec-title" style={{ fontSize: '32px', marginBottom: '8px' }}>Compare all plans</h2>
                 <table className="comp-table">
@@ -1229,7 +1160,7 @@ const Landing = () => {
                   <a className="btn btn-dark">Read Article <i className="fa-solid fa-arrow-right"></i></a>
                 </div>
               </div>
-              
+
               <div className="articles-grid fade-up">
                 <div className="article-card" onClick={() => showToast('Opening article...', '📖')}>
                   <div className="article-img" style={{ background: 'linear-gradient(135deg,#1565C0,#42A5F5)' }}><i className="fa-solid fa-lightbulb" style={{ color: '#fff' }}></i></div>
@@ -1286,7 +1217,7 @@ const Landing = () => {
                 <div className="fade-up">
                   <h3 style={{ fontSize: '22px', fontWeight: '800', marginBottom: '6px' }}>Send us a message</h3>
                   <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '24px' }}>Fill out the form below and we'll get back to you shortly.</p>
-                  
+
                   <div className="form-row">
                     <div className="form-group">
                       <label className="form-label">First Name</label>
@@ -1309,16 +1240,16 @@ const Landing = () => {
                     <label className="form-label">Message</label>
                     <textarea className="form-textarea" placeholder="Tell us more about your inquiry..."></textarea>
                   </div>
-                  
+
                   <button className="btn btn-dark" style={{ width: '100%', justifyContent: 'center', height: '50px', marginTop: '10px' }} onClick={() => showToast('Message sent! We\'ll reply shortly.', '✅')}>
                     Send Message <i className="fa-solid fa-paper-plane"></i>
                   </button>
                 </div>
-                
+
                 <div className="fade-up">
                   <h3 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '14px' }}>Contact Information</h3>
                   <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '28px', lineHeight: '1.7' }}>Have a quick question about features, pricing, or your account? Feel free to reach out directly via email or our live chat.</p>
-                  
+
                   <div className="contact-methods mb-48">
                     <div className="cm-card">
                       <div className="cm-icon" style={{ color: 'var(--violet)' }}><i className="fa-regular fa-envelope"></i></div>
@@ -1343,7 +1274,7 @@ const Landing = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div style={{ background: 'var(--violet-soft)', borderRadius: '16px', padding: '24px' }}>
                     <div style={{ fontSize: '18px', marginBottom: '8px' }}><i className="fa-solid fa-rocket" style={{ color: 'var(--violet)' }}></i></div>
                     <div style={{ fontWeight: '700', marginBottom: '6px' }}>Ready to get started?</div>
