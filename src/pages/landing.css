@@ -2775,6 +2775,25 @@
 .landing-body .blog-hero-body { padding: 40px; }
 
 /* Responsive updates for new components */
+@media (max-width: 1160px) {
+  .landing-body .hero-inner { gap: 32px; }
+  .landing-body .phone-2 { right: 0px; }
+  .landing-body .float-card.fc-br { left: 0px; }
+  .landing-body .split-sec { gap: 40px; }
+  .landing-body .cta-v2 { margin: 0 16px 80px; }
+}
+
+@media (max-width: 1024px) {
+  .landing-body .hero-visual { transform: scale(0.85); transform-origin: right center; }
+  .landing-body .hero h1 { font-size: 46px; }
+  .landing-body .manage-phone-wrap { transform: scale(0.9); transform-origin: left center; }
+  .landing-body .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .landing-body .features-3-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media(max-width:900px){
   .landing-body .split-sec, .landing-body .team-grid, .landing-body .values-grid, .landing-body .contact-grid, .landing-body .blog-hero-card { grid-template-columns: 1fr; }
+  .landing-body .features-3-grid { grid-template-columns: 1fr; }
+  .landing-body .hero-visual { transform: none; margin-top: 40px; display: flex; justify-content: center; }
+  .landing-body .manage-phone-wrap { transform: none; display: flex; justify-content: center; margin-bottom: 40px; }
 }
